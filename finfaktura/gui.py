@@ -64,65 +64,65 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         self.gui.actionSikkerhetskopi.setEnabled(False)
         self.gui.actionLover_og_regler.setEnabled(False)
         # rullegardinmeny:
-        QtCore.QObject.connect(self.gui.actionDitt_firma, QtCore.SIGNAL("activated()"), self.visFirmaOppsett)
-        QtCore.QObject.connect(self.gui.actionEpost, QtCore.SIGNAL("activated()"), self.visEpostOppsett)
-        QtCore.QObject.connect(self.gui.actionProgrammer, QtCore.SIGNAL("activated()"), self.visProgramOppsett)
-        QtCore.QObject.connect(self.gui.actionOm_Finfaktura, QtCore.SIGNAL("activated()"), lambda: self.visTekstVindu('om'))
-        QtCore.QObject.connect(self.gui.actionLisens, QtCore.SIGNAL("activated()"), lambda: self.visTekstVindu('lisens'))
-        QtCore.QObject.connect(self.gui.actionF_rste_fakturanummer, QtCore.SIGNAL("activated()"), self.visFakturanummer)
-        #QtCore.QObject.connect(self.gui.actionLover_og_regler, QtCore.SIGNAL("activated()"), self.visLover)
-        #QtCore.QObject.connect(self.gui.actionSikkerhetskopi, QtCore.SIGNAL("activated()"), self.visSikkerhetskopi)
+        self.gui.actionDitt_firma.triggered.connect(self.visFirmaOppsett)
+        self.gui.actionEpost.triggered.connect(self.visEpostOppsett)
+        self.gui.actionProgrammer.triggered.connect(self.visProgramOppsett)
+        self.gui.actionOm_Finfaktura.triggered.connect(lambda: self.visTekstVindu('om'))
+        self.gui.actionLisens.triggered.connect(lambda: self.visTekstVindu('lisens'))
+        self.gui.actionF_rste_fakturanummer.triggered.connect(self.visFakturanummer)
+        #self.gui.actionLover_og_regler.triggered.connect(self.visLover)
+        #self.gui.actionSikkerhetskopi.triggered.connect(self.visSikkerhetskopi)
 
         # kontroller i faktura-vinudet
-        QtCore.QObject.connect(self.gui.fakturaTab, QtCore.SIGNAL("currentChanged(QWidget*)"), self.skiftTab)
+        self.gui.fakturaTab.currentChanged.connect(self.skiftTab)
 
-        QtCore.QObject.connect(self.gui.fakturaNy, QtCore.SIGNAL("clicked()"), self.nyFaktura)
-#     QtCore.QObject.connect(self.fakturaFakturaliste, QtCore.SIGNAL("doubleClicked(QListViewItem*, const QtGui.QPoint&, int)"), self.redigerFaktura)
-        QtCore.QObject.connect(self.gui.fakturaFaktaLegginn, QtCore.SIGNAL("clicked()"), self.leggTilFaktura)
-        QtCore.QObject.connect(self.gui.fakturaFakturaliste, QtCore.SIGNAL("currentItemChanged (QTreeWidgetItem *,QTreeWidgetItem *)"), self.visFakturadetaljer)
-        QtCore.QObject.connect(self.gui.fakturaVareliste, QtCore.SIGNAL("cellChanged(int,int)"), self.fakturaVarelisteSynk)
-        QtCore.QObject.connect(self.gui.fakturaFaktaVareLeggtil, QtCore.SIGNAL("clicked()"), self.leggVareTilOrdre)
-        #QtCore.QObject.connect(self.gui.fakturaFaktaVareFjern, QtCore.SIGNAL("clicked()"), self.fjernVareFraOrdre)
-        QtCore.QObject.connect(self.gui.fakturaLagEpost, QtCore.SIGNAL("clicked()"), self.lagFakturaEpost)
-        QtCore.QObject.connect(self.gui.fakturaLagPapir, QtCore.SIGNAL("clicked()"), self.lagFakturaPapir)
-        QtCore.QObject.connect(self.gui.fakturaLagKvittering, QtCore.SIGNAL("clicked()"), self.visFakturaKvittering)
-        QtCore.QObject.connect(self.gui.fakturaBetalt, QtCore.SIGNAL("clicked()"), self.betalFaktura)
-        QtCore.QObject.connect(self.gui.fakturaVisKansellerte, QtCore.SIGNAL("toggled(bool)"), self.visFaktura)
-        QtCore.QObject.connect(self.gui.fakturaVisGamle, QtCore.SIGNAL("toggled(bool)"), self.visFaktura)
+        self.gui.fakturaNy.clicked.connect(self.nyFaktura)
+#     self.fakturaFakturaliste.doubleClicked.connect(self.redigerFaktura)
+        self.gui.fakturaFaktaLegginn.clicked.connect(self.leggTilFaktura)
+        self.gui.fakturaFakturaliste.currentItemChanged.connect(self.visFakturadetaljer)
+        self.gui.fakturaVareliste.cellChanged.connect(self.fakturaVarelisteSynk)
+        self.gui.fakturaFaktaVareLeggtil.clicked.connect(self.leggVareTilOrdre)
+        #self.gui.fakturaFaktaVareFjern.clicked.connect(self.fjernVareFraOrdre)
+        self.gui.fakturaLagEpost.clicked.connect(self.lagFakturaEpost)
+        self.gui.fakturaLagPapir.clicked.connect(self.lagFakturaPapir)
+        self.gui.fakturaLagKvittering.clicked.connect(self.visFakturaKvittering)
+        self.gui.fakturaBetalt.clicked.connect(self.betalFaktura)
+        self.gui.fakturaVisKansellerte.toggled.connect(self.visFaktura)
+        self.gui.fakturaVisGamle.toggled.connect(self.visFaktura)
         self.gui.fakturaFaktaKryss.mousePressEvent = self.lukkFakta
 
         # kontroller i kunde-vinduet
-        QtCore.QObject.connect(self.gui.kundeNy, QtCore.SIGNAL("clicked()"), self.lastKunde)
-        QtCore.QObject.connect(self.gui.kundeKundeliste, QtCore.SIGNAL("itemDoubleClicked (QTreeWidgetItem *,int)"), self.redigerKunde)
-        QtCore.QObject.connect(self.gui.kundeInfoEndre, QtCore.SIGNAL("clicked()"), self.leggTilKunde)
-        QtCore.QObject.connect(self.gui.kundeNyFaktura, QtCore.SIGNAL("clicked()"), self.nyFakturaFraKunde)
-        QtCore.QObject.connect(self.gui.kundeKundeliste, QtCore.SIGNAL("currentItemChanged (QTreeWidgetItem *,QTreeWidgetItem *)"), self.visKundedetaljer)
-        QtCore.QObject.connect(self.gui.kundeVisFjernede, QtCore.SIGNAL("toggled(bool)"), self.visKunder)
+        self.gui.kundeNy.clicked.connect(self.lastKunde)
+        self.gui.kundeKundeliste.itemDoubleClicked.connect(self.redigerKunde)
+        self.gui.kundeInfoEndre.clicked.connect(self.leggTilKunde)
+        self.gui.kundeNyFaktura.clicked.connect(self.nyFakturaFraKunde)
+        self.gui.kundeKundeliste.currentItemChanged.connect(self.visKundedetaljer)
+        self.gui.kundeVisFjernede.toggled.connect(self.visKunder)
         self.gui.kundeInfoKryss.mousePressEvent = self.lukkKundeinfo
 
-        #QtCore.QObject.connect(self.gui.varerVareliste, QtCore.SIGNAL("selected(const QtGui.QString&)"), self.nyFaktura)
+        #self.gui.varerVareliste.selected.connect(self.nyFaktura)
 
         # kontroller i vare-vinduet
-        QtCore.QObject.connect(self.gui.varerNy, QtCore.SIGNAL("clicked()"), self.lastVare)
-        QtCore.QObject.connect(self.gui.varerVareliste, QtCore.SIGNAL("itemDoubleClicked (QTreeWidgetItem *,int)"), self.redigerVare)
-        QtCore.QObject.connect(self.gui.varerInfoLegginn, QtCore.SIGNAL("clicked()"), self.registrerVare)
-        QtCore.QObject.connect(self.gui.varerVareliste, QtCore.SIGNAL("currentItemChanged (QTreeWidgetItem *,QTreeWidgetItem *)"), self.visVaredetaljer)
-        QtCore.QObject.connect(self.gui.varerVisFjernede, QtCore.SIGNAL("toggled(bool)"), self.visVarer)
+        self.gui.varerNy.clicked.connect(self.lastVare)
+        self.gui.varerVareliste.itemDoubleClicked.connect(self.redigerVare)
+        self.gui.varerInfoLegginn.clicked.connect(self.registrerVare)
+        self.gui.varerVareliste.currentItemChanged.connect(self.visVaredetaljer)
+        self.gui.varerVisFjernede.toggled.connect(self.visVarer)
         self.gui.varerInfoKryss.mousePressEvent = self.lukkVarerinfo
 
         # kontroller i økonomi-vinduet
 
-        QtCore.QObject.connect(self.gui.okonomiAvgrensningerDatoManed, QtCore.SIGNAL("highlighted(int)"), self.okonomiFyllDatoPeriode)
-        QtCore.QObject.connect(self.gui.okonomiAvgrensningerDato, QtCore.SIGNAL("toggled(bool)"), self.okonomiFyllDato)
-        QtCore.QObject.connect(self.gui.okonomiAvgrensningerKunde, QtCore.SIGNAL("toggled(bool)"), self.okonomiFyllKunder)
-        QtCore.QObject.connect(self.gui.okonomiAvgrensningerVare, QtCore.SIGNAL("toggled(bool)"), self.okonomiFyllVarer)
-        QtCore.QObject.connect(self.gui.okonomiSorter, QtCore.SIGNAL("toggled(bool)"), self.okonomiFyllSortering)
-        QtCore.QObject.connect(self.gui.okonomiRegnskapRegnut, QtCore.SIGNAL("clicked()"), self.okonomiRegnRegnskap)
-        QtCore.QObject.connect(self.gui.okonomiFakturaerSkrivut, QtCore.SIGNAL("clicked()"), self.okonomiSkrivUtFakturaer)
+        self.gui.okonomiAvgrensningerDatoManed.highlighted.connect(self.okonomiFyllDatoPeriode)
+        self.gui.okonomiAvgrensningerDato.toggled.connect(self.okonomiFyllDato)
+        self.gui.okonomiAvgrensningerKunde.toggled.connect(self.okonomiFyllKunder)
+        self.gui.okonomiAvgrensningerVare.toggled.connect(self.okonomiFyllVarer)
+        self.gui.okonomiSorter.toggled.connect(self.okonomiFyllSortering)
+        self.gui.okonomiRegnskapRegnut.clicked.connect(self.okonomiRegnRegnskap)
+        self.gui.okonomiFakturaerSkrivut.clicked.connect(self.okonomiSkrivUtFakturaer)
 
         topplinje = self.gui.fakturaVareliste.horizontalHeader()
-        topplinje.setResizeMode(0, QtGui.QHeaderView.Stretch)
-        topplinje.setResizeMode(3, QtGui.QHeaderView.Fixed)
+        topplinje.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        topplinje.setSectionResizeMode(3, QtWidgets.QHeaderView.Fixed)
         topplinje.resizeSection(1, 100)
         topplinje.resizeSection(2, 100)
         topplinje.resizeSection(3, 85)
@@ -410,8 +410,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         Antall.setDecimals(1)
         Antall.show()
         Antall.setToolTip('Antall varer levert')
-        QtCore.QObject.connect(Antall, QtCore.SIGNAL("valueChanged(double)"),
-            lambda x: self.fakturaVarelisteSynk(rad, 1))
+        Antall.valueChanged.connect(lambda x: self.fakturaVarelisteSynk(rad, 1))
 
         Pris = QtWidgets.QDoubleSpinBox(self.gui.fakturaVareliste)
         Pris.setButtonSymbols(QtWidgets.QDoubleSpinBox.UpDownArrows)
@@ -420,8 +419,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         Pris.setSuffix(' kr')
         Pris.show()
         Pris.setToolTip('Varens pris (uten MVA)')
-        QtCore.QObject.connect(Pris, QtCore.SIGNAL("valueChanged(double)"),
-            lambda x: self.fakturaVarelisteSynk(rad, 2))
+        Pris.valueChanged.connect(lambda x: self.fakturaVarelisteSynk(rad, 2))
 
         Mva = QtWidgets.QDoubleSpinBox(self.gui.fakturaVareliste)
         Mva.setButtonSymbols(QtWidgets.QDoubleSpinBox.UpDownArrows)
@@ -429,8 +427,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         Mva.setSuffix(' %')
         Mva.show()
         Mva.setToolTip('MVA-sats som skal beregnes på varen')
-        QtCore.QObject.connect(Mva, QtCore.SIGNAL("valueChanged(double)"),
-            lambda x: self.fakturaVarelisteSynk(rad, 3))
+        Mva.valueChanged.connect(lambda x: self.fakturaVarelisteSynk(rad, 3))
 
         Vare = QtWidgets.QComboBox(self.gui.fakturaVareliste)
         for v in self.faktura.hentVarer():
@@ -439,9 +436,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         Vare.setAutoCompletion(True)
         Vare.show()
         Vare.setToolTip('Velg vare; eller skriv inn nytt varenavn og trykk <em>enter</em> for å legge til en ny vare')
-        QtCore.QObject.connect(Vare, QtCore.SIGNAL("activated(int)"),
-            lambda x: self.fakturaVarelisteSynk(rad, 0))
-
+        Vare.activated.connect(lambda x: self.fakturaVarelisteSynk(rad, 0))
 
         self.gui.fakturaVareliste.setRowCount(rad+1)
         self.gui.fakturaVareliste.setCellWidget(rad, 0, Vare)
@@ -1286,7 +1281,7 @@ class tekstVindu(object):
         self.vbox.addWidget(self.tekst)
         self.vbox.addWidget(self.knapper)
 
-        QtCore.QObject.connect(self.knapper, QtCore.SIGNAL("accepted()"), self.gui.accept)
+        self.knapper.accepted.connect(self.gui.accept)
 
         self.gui.show()
     def exec_(self):
@@ -1304,6 +1299,6 @@ def start():
     app.installTranslator(myappTranslator)
 
     ff = FinFaktura()
-    QtCore.QObject.connect(app, QtCore.SIGNAL("lastWindowClosed()"), ff.avslutt)
+    app.lastWindowClosed.connect(ff.avslutt)
     return app.exec_()
 
