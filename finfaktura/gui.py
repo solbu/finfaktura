@@ -29,7 +29,7 @@ import finfaktura.fakturakomponenter
 import finfaktura.fil
 from finfaktura.fakturafeil import *
 
-from PyQt4 import QtCore, QtGui, uic
+from PyQt5 import QtCore, QtGui, uic
 try:
     from finfaktura.ui.faktura_ui import Ui_FinFaktura
     import finfaktura.ui.faktura_rc # last inn logoer

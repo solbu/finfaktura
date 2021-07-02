@@ -11,7 +11,7 @@ Source0:	http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 
 BuildArch:	noarch
 BuildRequires:	desktop-file-utils
-Requires:	PyQt4
+Requires:	PyQt5
 Requires:	python-reportlab
 Requires:	sqlite3-tools
 

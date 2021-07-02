@@ -18,7 +18,7 @@ try:
 except ImportError:
     from pysqlite2 import dbapi2 as sqlite # prøv bruker/system-installert modul
 
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 
 from .fakturafeil import *
 

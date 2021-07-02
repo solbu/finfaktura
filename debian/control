@@ -2,16 +2,16 @@ Source: finfaktura
 Section: kde
 Priority: optional
 Maintainer: Johnny A. Solbu <johnny@solbu.net>
-Build-Depends: debhelper (>= 5.0.38), python-all-dev (>= 2.5), python (>= 2.5), python-qt4, pyqt4-dev-tools, dh-python
+Build-Depends: debhelper (>= 5.0.38), python-all-dev (>= 2.5), python (>= 2.5), python-qt5, pyqt5-dev-tools, dh-python
 Standards-Version: 3.9.6
 XS-Python-Version: >=2.5
 Homepage: http://sourceforge.net/projects/finfaktura/
 
 Package: finfaktura
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-qt4, python-reportlab
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-qt5, python-reportlab
 XB-Python-Version: ${python:Versions}
-Recommends: qt4-qtconfig, python-imaging
+Recommends: qt5-qtconfig, python-imaging
 Description: Create and manage invoices (Norwegian specs)
  Invoices, customers, products. Creates PDF invoices.
  Automatic email submission and database backup.

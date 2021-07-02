@@ -11,7 +11,7 @@
 ###########################################################################
 
 import sys, os, logging, mimetypes, stat
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 from .ui import sendepost_ui
 
 class sendEpost(sendepost_ui.Ui_sendEpost):
