@@ -315,7 +315,7 @@ class oppgrader:
         if dbBackup is None:
             dbBackup = self.gammelDatabaseSti
         if not dbBackup:
-            raise "trbl"
+            raise Exception("trbl")
         shutil.copy(dbBackup, dbSti) #skriver over dbSti med backup
         return True
 

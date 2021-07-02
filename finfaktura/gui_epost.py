@@ -86,7 +86,8 @@ class epostOppsett(epost_ui.Ui_epostOppsett):
         logging.debug("roterer til %s er synlig" % seksjon)
         bokser = {'smtp':self.boxSMTP, 'sendmail':self.boxSendmail}
         if seksjon == 'auto': #vis alt
-            list(map(lambda x: x.setEnabled(True), list(bokser.values())))
+            for boks in list(bokser.values()):
+                boks.setEnabled(True)
             return
         for merke, box in bokser.items():
             box.setEnabled(merke == seksjon)
