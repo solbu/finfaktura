@@ -354,7 +354,7 @@ def sikkerhetskopierFil(filnavn):
     return shutil.copyfile(f, bkpfil)
 
 def lesRessurs(ressurs):
-    """Leser en intern QT4-ressurs (qrc) og returnerer den som en QString.
+    """Leser en intern QT5-ressurs (qrc) og returnerer den som en string.
 
     'ressurs' er på formatet ':/sti/navn', for eksempel ':/sql/faktura.sql'
     """
@@ -364,7 +364,7 @@ def lesRessurs(ressurs):
         raise IOError("Kunne ikke åpne ressursen '%s'" % ressurs)
     t = QtCore.QTextStream(f)
     t.setCodec("UTF-8")
-    s = QtCore.QString(t.readAll())
+    s = t.readAll()
     f.close()
     return s
 

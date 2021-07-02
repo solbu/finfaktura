@@ -390,7 +390,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
 
         #skal vi lage blanketter nå?
         s = 'Den nye fakturaen er laget. Vil du lage tilhørende blankett nå?'
-        knapp = QtGui.QMessageBox.information(self, 'Lage blankett?', s, 'Epost', 'Papir', 'Senere', 0, 2)
+        knapp = QtWidgets.QMessageBox.information(self, 'Lage blankett?', s, 'Epost', 'Papir', 'Senere', 0, 2)
         if knapp == 0: self.lagFaktura(Type='epost')
         elif knapp == 1: self.lagFaktura(Type='papir')
 

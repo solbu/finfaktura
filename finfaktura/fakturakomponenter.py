@@ -62,10 +62,8 @@ class fakturaKomponent:
         if egenskap in self._egenskaper: # denne egenskapen skal lagres i databasen
             if type(verdi) == bool:
                 verdi = int(verdi) # lagrer bool som int: 0 | 1
-            elif type(verdi) == buffer and len(verdi) == 0:
+            elif type(verdi) == memoryview and len(verdi) == 0:
                 verdi = ''
-            elif type(verdi) == QtCore.QString:
-                verdi = str(verdi)
             self.oppdaterEgenskap(egenskap, verdi) # oppdater databasen
         self.__dict__[egenskap] = verdi # oppdater lokalt for objektet
 
