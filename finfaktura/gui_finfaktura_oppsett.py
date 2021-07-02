@@ -17,7 +17,7 @@ from .ui import finfaktura_oppsett_ui
 class finfakturaOppsett(finfaktura_oppsett_ui.Ui_FinFakturaOppsett):
     def __init__(self, faktura):
         self.faktura = faktura
-        self.gui = QtGui.QDialog()
+        self.gui = QtWidgets.QDialog()
         self.setupUi(self.gui)
         self.gui.connect(self.oppsettFakturakatalogSok, QtCore.SIGNAL("clicked()"), self.endreFakturakatalog)
         self.gui.connect(self.oppsettProgrammerVisSok, QtCore.SIGNAL("clicked()"), self.endreProgramVis)
@@ -27,7 +27,7 @@ class finfakturaOppsett(finfaktura_oppsett_ui.Ui_FinFakturaOppsett):
 
     def exec_(self):
         res = self.gui.exec_()
-        if res == QtGui.QDialog.Accepted:
+        if res == QtWidgets.QDialog.Accepted:
             logging.debug('oppdaterer')
             self.oppdater()
         return res

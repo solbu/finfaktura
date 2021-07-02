@@ -27,6 +27,6 @@ def vis(filnavn, program=PDFVIS):
         (e) = xxx_todo_changeme
         logging.exception(e)
         from PyQt5 import QtCore, QtGui
-        QtGui.QMessageBox.information(None, "Obs!", "Kunne ikke åpne PDF: %s.\nPrøver igjen, nå med systemets pdf-leser." % str(e), QtGui.QMessageBox.Ok)
+        QtWidgets.QMessageBox.information(None, "Obs!", "Kunne ikke åpne PDF: %s.\nPrøver igjen, nå med systemets pdf-leser." % str(e), QtWidgets.QMessageBox.Ok)
         return QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(filnavn))
 

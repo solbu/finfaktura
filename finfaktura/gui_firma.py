@@ -11,14 +11,14 @@
 ###########################################################################
  
 import logging
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from .ui import firmainfo_ui
 from .fakturabibliotek import typeofqt
 
 class firmaOppsett(firmainfo_ui.Ui_firmaOppsett):
     def __init__(self, firma):
         self.firma = firma
-        self.gui = QtGui.QDialog()
+        self.gui = QtWidgets.QDialog()
         self.setupUi(self.gui)
         self.gui.connect(self.lagreLogo, QtCore.SIGNAL("clicked()"), self.finnFjernLogo)
 
@@ -43,7 +43,7 @@ class firmaOppsett(firmainfo_ui.Ui_firmaOppsett):
 
     def exec_(self):
         res = self.gui.exec_()
-        if res == QtGui.QDialog.Accepted:
+        if res == QtWidgets.QDialog.Accepted:
             return self.samleInfo()
         return {}
 
@@ -142,7 +142,7 @@ class firmaOppsett(firmainfo_ui.Ui_firmaOppsett):
         if mangler:
             mangel = 'Du er nødt til å oppgi:\n%s' % ([ mangler[obj].lower() for obj in list(mangler.keys()) ])
             logging.debug (mangel)
-            QtGui.QMessageBox.critical(self.gui, 'Ufullstendige opplysninger', mangel)
+            QtWidgets.QMessageBox.critical(self.gui, 'Ufullstendige opplysninger', mangel)
             list(mangler.keys())[0].setFocus()
             return False
 
@@ -151,9 +151,9 @@ class firmaOppsett(firmainfo_ui.Ui_firmaOppsett):
         kravkart.update(self._kontrollkart)
         test = None
         for obj in list(kravkart.keys()):
-            if isinstance(obj, QtGui.QSpinBox): test = obj.value() > 0
-            elif isinstance(obj, QtGui.QComboBox): test = obj.currentText()
-            elif isinstance(obj, (QtGui.QLineEdit,QtGui.QTextEdit)): test = obj.text()
+            if isinstance(obj, QtWidgets.QSpinBox): test = obj.value() > 0
+            elif isinstance(obj, QtWidgets.QComboBox): test = obj.currentText()
+            elif isinstance(obj, (QtWidgets.QLineEdit,QtGui.QTextEdit)): test = obj.text()
             if test is None:
                 logging.error('sjekkFirmaMangler: mangler test for % obj')
             elif test: kravkart.pop(obj)
@@ -164,9 +164,9 @@ class firmaOppsett(firmainfo_ui.Ui_firmaOppsett):
         tom = QtGui.QColor('red')
         widget = 'QWidget'
         for obj in list(self._kontrollkart.keys()):
-            if isinstance(obj, (QtGui.QSpinBox, QtGui.QDoubleSpinBox)): test = obj.value() > 0
-            elif isinstance(obj, QtGui.QComboBox): test = obj.currentText()
-            elif isinstance(obj, (QtGui.QLineEdit,QtGui.QTextEdit)): test = obj.text()
+            if isinstance(obj, (QtWidgets.QSpinBox, QtWidgets.QDoubleSpinBox)): test = obj.value() > 0
+            elif isinstance(obj, QtWidgets.QComboBox): test = obj.currentText()
+            elif isinstance(obj, (QtWidgets.QLineEdit,QtGui.QTextEdit)): test = obj.text()
             elif isinstance(obj, QtGui.QPlainTextEdit): test = obj.toPlainText()
             else:
                 logging.error('mangler test for %s (%s)' % (obj, type(obj)))

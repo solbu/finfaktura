@@ -1,5 +1,4 @@
 #!/usr/bin/python3 -d
-# -*-*- coding:utf8 -*-*-
 ###########################################################################
 #    Copyright (C) 2005-2009 Håvard Gulldahl
 #    <havard@lurtgjort.no>
@@ -37,7 +36,7 @@ if __name__ == "__main__":
   except Exception as xxx_todo_changeme:
     (e) = xxx_todo_changeme
     print(e)
-    if 'no such table' in e.message:
+    if 'no such table' in str(e):
       byggDatabase(cx, 'faktura.sql')
       firma = fakturaFirmainfo(cx)
 

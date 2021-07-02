@@ -27,7 +27,7 @@ import finfaktura.fakturakomponenter
 import finfaktura.fil
 from finfaktura.fakturafeil import *
 
-from PyQt5 import QtCore, QtGui, uic
+from PyQt5 import QtCore, QtGui, uic, QtWidgets
 
 try:
     from finfaktura.ui.faktura_ui import Ui_FinFaktura
@@ -45,14 +45,14 @@ from . import gui_sendepost, gui_epost, gui_finfaktura_oppsett, gui_firma, gui_f
 
 PDFVIS = "/usr/bin/xdg-open" # program for å vise PDF
 
-class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui.py
+class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui.py
     db = None
     denne_kunde = None
     denne_vare = None
     gammelTab = 0
 
     def __init__(self):
-        QtGui.QMainWindow.__init__(self)
+        QtWidgets.QMainWindow.__init__(self)
         self.gui = Ui_FinFaktura()
         self.gui.setupUi(self)
         self.show()
@@ -169,7 +169,7 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
             except OppgraderingsFeil:
                 raise
             except SikkerhetskopiFeil as e:
-                self.alert('Databasen er oppgradert, men kunne ikke lage sikkerhetskopier fordi:\n %s' % e.message) # str(e).decode('utf8'))
+                self.alert('Databasen er oppgradert, men kunne ikke lage sikkerhetskopier fordi:\n ' + str(e))
             self.databaseTilkobler()
             self.faktura = FakturaBibliotek(self.db)
             self.firma   = self.faktura.firmainfo()
@@ -251,7 +251,7 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
             if not visGamle and ordre.betalt and ordre.ordredato < nu-60*60*24*7*4*6: continue # eldre enn seks mnd og betalt
             if ordre.betalt: bet = strftime("%Y-%m-%d %H:%M", localtime(ordre.betalt))
             else: bet = "Nei"
-            l = QtGui.QTreeWidgetItem([
+            l = QtWidgets.QTreeWidgetItem([
                               "%06d" % ordre.ID,
                               '%s' % ordre.tekst,
                               '%s' % ordre.kunde.navn,
@@ -291,9 +291,9 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
         # sjekk at firmainfo er fullstendig utfylt (så feiler vi ikke senere)
         try: self.firma.sjekkData()
         except FirmainfoFeil as e:
-            self.alert('Informasjonen om firmaet ditt må være fullstendig '+\
-                       'før du fyller ut fakturaer.\n'+
-                       e.message)
+            self.alert('Informasjonen om firmaet ditt må være fullstendig ' +
+                       'før du fyller ut fakturaer.\n' +
+                       str(e))
             self.visFirmaOppsett()
             return False
         if kunde is not None:
@@ -404,7 +404,7 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
     def leggVareTilOrdre(self, rad=None):
         if rad is None:
             rad = self.gui.fakturaVareliste.rowCount()
-        Antall = QtGui.QDoubleSpinBox(self.gui.fakturaVareliste)
+        Antall = QtWidgets.QDoubleSpinBox(self.gui.fakturaVareliste)
         Antall.setMaximum(100000.0)
         Antall.setValue(0.0)
         Antall.setDecimals(1)
@@ -413,8 +413,8 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
         QtCore.QObject.connect(Antall, QtCore.SIGNAL("valueChanged(double)"),
             lambda x: self.fakturaVarelisteSynk(rad, 1))
 
-        Pris = QtGui.QDoubleSpinBox(self.gui.fakturaVareliste)
-        Pris.setButtonSymbols(QtGui.QDoubleSpinBox.UpDownArrows)
+        Pris = QtWidgets.QDoubleSpinBox(self.gui.fakturaVareliste)
+        Pris.setButtonSymbols(QtWidgets.QDoubleSpinBox.UpDownArrows)
         Pris.setMaximum(999999999.0)
         Pris.setDecimals(2)
         Pris.setSuffix(' kr')
@@ -423,8 +423,8 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
         QtCore.QObject.connect(Pris, QtCore.SIGNAL("valueChanged(double)"),
             lambda x: self.fakturaVarelisteSynk(rad, 2))
 
-        Mva = QtGui.QDoubleSpinBox(self.gui.fakturaVareliste)
-        Mva.setButtonSymbols(QtGui.QDoubleSpinBox.UpDownArrows)
+        Mva = QtWidgets.QDoubleSpinBox(self.gui.fakturaVareliste)
+        Mva.setButtonSymbols(QtWidgets.QDoubleSpinBox.UpDownArrows)
         Mva.setValue(25)
         Mva.setSuffix(' %')
         Mva.show()
@@ -432,7 +432,7 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
         QtCore.QObject.connect(Mva, QtCore.SIGNAL("valueChanged(double)"),
             lambda x: self.fakturaVarelisteSynk(rad, 3))
 
-        Vare = QtGui.QComboBox(self.gui.fakturaVareliste)
+        Vare = QtWidgets.QComboBox(self.gui.fakturaVareliste)
         for v in self.faktura.hentVarer():
             Vare.addItem(str(v.navn), QtCore.QVariant(v))
         Vare.setEditable(True)
@@ -678,7 +678,7 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
     def visEpostfaktura(self, ordre, pdfFilnavn):
         epostboks = gui_sendepost.sendEpost(self, ordre)
         res, tekst = epostboks.exec_()
-        if res == QtGui.QDialog.Accepted:
+        if res == QtWidgets.QDialog.Accepted:
           return self.sendEpostfaktura(ordre, tekst, pdfFilnavn)
 
     def sendEpostfaktura(self, ordre, tekst, filnavn):
@@ -726,7 +726,7 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
         i = self.gui.kundeKundeliste.addTopLevelItem
         self.gui.kundeKundeliste.clear()
         for kunde in self.faktura.hentKunder(inkluderSlettede=visFjernede):
-            l = QtGui.QTreeWidgetItem([
+            l = QtWidgets.QTreeWidgetItem([
                               "%03d" % kunde.ID,
                               '%s' % kunde.navn,
                               '%s' % kunde.epost,
@@ -744,25 +744,28 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
         kunde = self.gui.kundeKundeliste.currentItem().kunde
         self.lastKunde(kunde)
 
-    def lastKunde(self, kunde = None):
+    def lastKunde(self, kunde=None):
+        if kunde is False:      # when activated by Ny kunde-click
+            kunde = None
         self.denne_kunde = kunde
         statuser = self.faktura.hentEgenskapVerdier("Kunde", "status")
         self.gui.kundeInfoStatus.clear()
         self.gui.kundeInfoStatus.addItems(statuser)
 
-        if kunde is not None: #redigerer eksisterende kunde
+        if kunde is not None:  # redigerer eksisterende
             self.gui.kundeInfoNavn.setText(kunde.navn)
             self.gui.kundeInfoKontaktperson.setText(str(kunde.kontaktperson))
             self.gui.kundeInfoEpost.setText(str(kunde.epost))
             comboidx = self.gui.kundeInfoStatus.findText(str(kunde.status))
-            if comboidx != 1: self.gui.kundeInfoStatus.setCurrentIndex(comboidx)
+            if comboidx != 1:
+                self.gui.kundeInfoStatus.setCurrentIndex(comboidx)
             self.gui.kundeInfoAdresse.setPlainText(str(kunde.adresse))
             self.gui.kundeInfoPoststed.setText(str(kunde.poststed))
             self.gui.kundeInfoPostnummer.setText(str(kunde.postnummer))
             self.gui.kundeInfoTelefon.setText(str(kunde.telefon))
             self.gui.kundeInfoTelefaks.setText(str(kunde.telefaks))
             self.gui.kundeInfoEndre.setText("Oppdate&r")
-        else: # ny kunde - tømmer skjemaet helt
+        else:                   # ny kunde - tømmer skjemaet helt
             self.gui.kundeInfoNavn.setText("")
             self.gui.kundeInfoKontaktperson.setText("")
             self.gui.kundeInfoEpost.setText("")
@@ -951,7 +954,7 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
         for vare in self.faktura.hentVarer(inkluderSlettede=visFjernede):
             if vare.pris is None: p = 0.0
             else: p = vare.pris
-            l = QtGui.QTreeWidgetItem([
+            l = QtWidgets.QTreeWidgetItem([
                               "%03d" % vare.ID,
                               str(vare.navn),
                               str(vare.detaljer),
@@ -967,7 +970,9 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
     def redigerVare(self, linje = None, koord = None, kolonne = None):
         self.lastVare(self.gui.varerVareliste.currentItem().vare)
 
-    def lastVare(self, vare = None):
+    def lastVare(self, vare=None):
+        if vare is False:      # when activated by Ny vare-click
+            vare = None
         self.denne_vare = vare
         enheter = self.faktura.hentEgenskapVerdier("Vare", "enhet")
         self.gui.varerInfoEnhet.clear()
@@ -1007,9 +1012,9 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
                     #self.gui.varerInfoPris:"Pris",
                     }
         for obj in list(kravkart.keys()):
-            if isinstance(obj, (QtGui.QSpinBox, QtGui.QDoubleSpinBox)): test = obj.value() > 0.0
-            elif isinstance(obj, QtGui.QComboBox): test = obj.currentText()
-            elif isinstance(obj, QtGui.QLineEdit): test = obj.text()
+            if isinstance(obj, (QtWidgets.QSpinBox, QtWidgets.QDoubleSpinBox)): test = obj.value() > 0.0
+            elif isinstance(obj, QtWidgets.QComboBox): test = obj.currentText()
+            elif isinstance(obj, QtWidgets.QLineEdit): test = obj.text()
             elif isinstance(obj, QtGui.QPlainTextEdit): test = obj.toPlainText()
             if not test:
                 self.alert('Du er nødt til å oppgi %s' % (kravkart[obj].lower()))
@@ -1251,18 +1256,18 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
 ############## GENERELLE METODER ###################
 
     def alert(self, msg):
-        QtGui.QMessageBox.critical(self, "Feil!", msg, QtGui.QMessageBox.Ok)
+        QtWidgets.QMessageBox.critical(self, "Feil!", msg, QtWidgets.QMessageBox.Ok)
 
     def obs(self, msg):
-        QtGui.QMessageBox.information(self, "Obs!", msg, QtGui.QMessageBox.Ok)
+        QtWidgets.QMessageBox.information(self, "Obs!", msg, QtWidgets.QMessageBox.Ok)
 
     def JaNei(self, s):
-        svar = QtGui.QMessageBox.question(self, "Hm?", s, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No | QtGui.QMessageBox.Default, QtGui.QMessageBox.NoButton)
-        return svar == QtGui.QMessageBox.Yes
+        svar = QtWidgets.QMessageBox.question(self, "Hm?", s, QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Default, QtWidgets.QMessageBox.NoButton)
+        return svar == QtWidgets.QMessageBox.Yes
 
 class tekstVindu(object):
     def __init__(self, tittel, tekst):
-        self.gui = QtGui.QDialog()
+        self.gui = QtWidgets.QDialog()
         self.gui.setObjectName('tekstvindu')
         self.gui.resize(600, 600)
         self.gui.setModal(True)
@@ -1275,8 +1280,8 @@ class tekstVindu(object):
         self.tekst.setObjectName("tekst")
         self.tekst.setPlainText(tekst)
         self.tekst.setReadOnly(True)
-        self.knapper = QtGui.QDialogButtonBox(self.gui)
-        self.knapper.setStandardButtons(QtGui.QDialogButtonBox.Ok)
+        self.knapper = QtWidgets.QDialogButtonBox(self.gui)
+        self.knapper.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
         self.vbox.addWidget(self.tittel)
         self.vbox.addWidget(self.tekst)
         self.vbox.addWidget(self.knapper)
@@ -1288,7 +1293,7 @@ class tekstVindu(object):
         return self.gui.exec_()
 
 def start():
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
 
     qtTranslator = QtCore.QTranslator()
     

@@ -121,18 +121,18 @@ class nummersettergui(object):
     fnr = self.gui.fakturanummer.value()
     logging.debug('Frste fakturanummer skal være %s', repr(fnr))
     if fnr < 1:
-      QtGui.QMessageBox.critical(self.gui, "Feil fakturanummer", "Du må sette første fakturanummer (nummeret du ønsker at din første faktura skal få)")
+      QtWidgets.QMessageBox.critical(self.gui, "Feil fakturanummer", "Du må sette første fakturanummer (nummeret du ønsker at din første faktura skal få)")
       return False
-    click = QtGui.QMessageBox.warning(self.gui,
+    click = QtWidgets.QMessageBox.warning(self.gui,
                                      "Sette fakturanummer?",
                                      "Advarsel! \nDu er nå i ferd med å endre fakturadatabasen, slik at neste faktura får løpenummer %s. Dette kan ikke endres senere! \n\nEr du sikker? (Hvis du er i tvil, velg 'Nei/No')" % fnr,
-                                     QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
-                                     QtGui.QMessageBox.No)
+                                     QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                     QtWidgets.QMessageBox.No)
     logging.debug('vil gjøre %s', click)
-    if click == QtGui.QMessageBox.Yes:
+    if click == QtWidgets.QMessageBox.Yes:
       logging.debug('ja')
       if self.help.settFakturanummer(str(self.gui.databasenavn.currentText()), fnr-1):
-        QtGui.QMessageBox.information(self.gui, "Fakturanummer endret", "Endret fakturanummer. Nå får neste faktura nummer %s" % fnr)
+        QtWidgets.QMessageBox.information(self.gui, "Fakturanummer endret", "Endret fakturanummer. Nå får neste faktura nummer %s" % fnr)
 
 if __name__ == '__main__':
   if '-d' in sys.argv:

@@ -19,7 +19,7 @@ from . import epost
 class epostOppsett(epost_ui.Ui_epostOppsett):
     def __init__(self, faktura):
         self.faktura = faktura
-        self.gui = QtGui.QDialog()
+        self.gui = QtWidgets.QDialog()
         self.setupUi(self.gui)
         self._epostlosninger = [self.epostLosningAuto, self.epostLosningSmtp, self.epostLosningSendmail]
         self.gui.connect(self.epostLosningAuto, QtCore.SIGNAL("toggled(bool)"),
@@ -35,7 +35,7 @@ class epostOppsett(epost_ui.Ui_epostOppsett):
 
     def exec_(self):
         res = self.gui.exec_()
-        if res == QtGui.QDialog.Accepted:
+        if res == QtWidgets.QDialog.Accepted:
             logging.debug('oppdaterer')
             self.oppdaterEpost()
         return res
@@ -119,10 +119,10 @@ class epostOppsett(epost_ui.Ui_epostOppsett):
             if w.isChecked(): return i
 
     def alert(self, msg):
-        QtGui.QMessageBox.critical(self.gui, "Feil!", msg, QtGui.QMessageBox.Ok)
+        QtWidgets.QMessageBox.critical(self.gui, "Feil!", msg, QtWidgets.QMessageBox.Ok)
 
     def obs(self, msg):
-        QtGui.QMessageBox.information(self.gui, "Obs!", msg, QtGui.QMessageBox.Ok)
+        QtWidgets.QMessageBox.information(self.gui, "Obs!", msg, QtWidgets.QMessageBox.Ok)
     #def epostVisAuth(self, vis):
         ##self.epostSmtpBrukernavn.setEnabled(vis)
         #self.epostSmtpPassord.setEnabled(vis)

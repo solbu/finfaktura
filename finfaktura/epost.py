@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding:utf8 -*-
 ###########################################################################
 #    Copyright (C) 2005-2009 Håvard Gulldahl
@@ -9,7 +9,9 @@
 # $Id$
 ###########################################################################
 
-import sys, types, os, os.path, logging
+import os
+import os.path
+import logging
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
@@ -19,7 +21,6 @@ from email.header import Header, decode_header
 from email.utils import parseaddr
 import email.iterators
 import socket
-from string import join
 
 TRANSPORTMETODER = ['auto', 'smtp', 'sendmail']
 

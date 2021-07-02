@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-# kate: indent-width 4;
 ###########################################################################
 #    Copyright (C) 2008 Håvard Gulldahl
 #    <havard@gulldahl.no>
@@ -11,14 +9,14 @@
 ###########################################################################
 
 import sys, os, logging, mimetypes, stat
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from .ui import sendepost_ui
 
 class sendEpost(sendepost_ui.Ui_sendEpost):
     _vedlegg = []
     def __init__(self, parent, ordre):
         self.parent = parent
-        self.gui = QtGui.QDialog()
+        self.gui = QtWidgets.QDialog()
         self.setupUi(self.gui)
         self.tittel.setText('Sender faktura til %s <b>&lt;%s</b>&gt;' % (ordre.kunde.navn, ordre.kunde.epost))
         self.tekst.setPlainText('Vedlagt følger epostfaktura #%i:\n%s\n\n-- \n%s\n%s' % (ordre.ID, ordre.tekst,  ordre.firma, ordre.firma.vilkar))
@@ -40,12 +38,13 @@ class sendEpost(sendepost_ui.Ui_sendEpost):
             if mime is not None:
                 mtype = mime[0]
             size = os.stat(ff)[stat.ST_SIZE]
-            i = QtGui.QTreeWidgetItem([f, mtype, prettySize(size)])
+            i = QtWidgets.QTreeWidgetItem([f, mtype, prettySize(size)])
             self.vedlegg.addTopLevelItem(i)
-            
+
     def exec_(self):
         res = self.gui.exec_()
         return res, str(self.tekst.toPlainText())
+
 
 def prettySize(size):
     suffixes = [("B",2**10), ("K",2**20), ("M",2**30), ("G",2**40), ("T",2**50)]
