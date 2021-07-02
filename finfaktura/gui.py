@@ -28,13 +28,20 @@ import finfaktura.fil
 from finfaktura.fakturafeil import *
 
 from PyQt5 import QtCore, QtGui, uic
+
 try:
     from finfaktura.ui.faktura_ui import Ui_FinFaktura
-    import finfaktura.ui.faktura_rc # last inn logoer
-    from . import gui_sendepost, gui_epost, gui_finfaktura_oppsett, gui_firma, gui_fakturanummer
 except ImportError as xxx_todo_changeme6:
     (e) = xxx_todo_changeme6
     raise RessurserManglerFeil(e)
+try:
+    # import finfaktura.ui.faktura_rc # last inn logoer
+    import faktura_rc # last inn logoer
+except ImportError as xxx_todo_changeme7:
+    (e) = xxx_todo_changeme7
+    print("7")
+    raise RessurserManglerFeil(e)
+from . import gui_sendepost, gui_epost, gui_finfaktura_oppsett, gui_firma, gui_fakturanummer
 
 PDFVIS = "/usr/bin/xdg-open" # program for å vise PDF
 

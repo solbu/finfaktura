@@ -20,7 +20,7 @@ def forbered_ressurser():
         ret = subprocess.call(['pyuic5', '-x', '-o', os.path.splitext(f)[0] + '_ui.py', f])
         print("%s: %s" % (f, ok(ret)))
     for f in rc_files:
-        plassering = os.path.join('finfaktura', 'ui', os.path.splitext(f)[0] + '_rc.py')
+        plassering = os.path.splitext(f)[0] + '_rc.py'
         ret = subprocess.call(['pyrcc5', '-o', plassering, f])
         print("%s -> %s: %s" % (f, plassering, ok(ret)))
 

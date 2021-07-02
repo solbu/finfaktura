@@ -3,7 +3,7 @@ SET RESSURSER="faktura.qrc"
 SET UIDIR="finfaktura\ui"
 
 ECHO Kompilerer ressurser...
-pyrcc5 -o %UIDIR%\faktura_rc.py faktura.qrc
+pyrcc5 -o faktura_rc.py faktura.qrc
 
 ECHO Kompilerer grensesnitt...
 
