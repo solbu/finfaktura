@@ -16,7 +16,7 @@ export DH_VERBOSE=1
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
 
-DH_PY_INTERPRETER=/usr/bin/python
+DH_PY_INTERPRETER=/usr/bin/python3
 
 #Architecture
 build: 
