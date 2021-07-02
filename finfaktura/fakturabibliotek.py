@@ -8,17 +8,18 @@
 # $Id$
 ###########################################################################
 
-import types, os, sys, os.path, shutil
-from string import join
-from time import time, strftime, localtime
-import logging, subprocess
-import xml.etree.ElementTree # help py2exe
+import os
+import sys
+import os.path
+import shutil
+from time import time
+import logging
 try:
     import sqlite3 as sqlite # python2.5 har sqlite3 innebygget
 except ImportError:
     from pysqlite2 import dbapi2 as sqlite # prøv bruker/system-installert modul
 
-from . import historikk, fil
+from . import fil
 from .fakturakomponenter import fakturaOppsett, fakturaEpost, fakturaFirmainfo, \
         fakturaOrdre, fakturaVare, fakturaKunde, fakturaSikkerhetskopi
 from .fakturafeil import *

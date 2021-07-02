@@ -59,9 +59,13 @@ Se forøvrig http://code.google.com/p/finfaktura/wiki/PythonF60
 # $Id: f60.py 541 2009-04-12 19:20:55Z havard.gulldahl $
 ###########################################################################
 
-import sys,  time, os, types
-from string import join, split
-import logging, subprocess, locale
+import sys
+import time
+import os
+import types
+import logging
+import subprocess
+import locale
 
 try:
     import io as StringIO

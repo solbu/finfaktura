@@ -11,7 +11,6 @@
 
 import logging
 from .fakturakomponenter import fakturaOrdre
-from string import join
 
 class ordreHenter:
     begrens = []

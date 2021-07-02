@@ -8,9 +8,12 @@
 # $Id: fakturakomponenter.py 545 2009-04-13 19:45:25Z havard.gulldahl $
 ###########################################################################
 
-import sys, re, types, time, os.path
-from string import join
-import logging, subprocess
+import sys
+import re
+import time
+import os.path
+import logging
+import subprocess
 
 
 try:

@@ -11,8 +11,7 @@
 ###########################################################################
 
 
-import sys, os.path, dircache, mimetypes, re
-from string import join
+import sys
 from time import time, strftime, localtime, mktime
 import logging
 
@@ -22,7 +21,6 @@ from finfaktura.fakturabibliotek import PRODUKSJONSVERSJON, \
     sikkerhetskopierFil, lesRessurs
 import finfaktura.f60 as f60
 import finfaktura.okonomi as fakturaOkonomi
-import finfaktura.sikkerhetskopi as sikkerhetskopi
 import finfaktura.historikk as historikk
 import finfaktura.rapport
 import finfaktura.fakturakomponenter
@@ -51,7 +49,7 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
         self.gui = Ui_FinFaktura()
         self.gui.setupUi(self)
         self.show()
-	self.setWindowIcon(QtGui.QIcon('finfaktura-icon.png'))
+        self.setWindowIcon(QtGui.QIcon('finfaktura-icon.png'))
 
         if not PRODUKSJONSVERSJON:
             self.setWindowTitle("FRYKTELIG FIN FADESE (utviklerversjon)")
@@ -194,11 +192,11 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
 
     def skiftTab(self, w):
         i = self.gui.fakturaTab.currentIndex()
-        if i is 0: self.visFaktura()
-        elif i is 1: self.visKunder()
-        elif i is 2: self.visVarer()
-        elif i is 3: self.visOkonomi()
-        elif i is 4: self.visFirma()
+        if i == 0: self.visFaktura()
+        elif i == 1: self.visKunder()
+        elif i == 2: self.visVarer()
+        elif i == 3: self.visOkonomi()
+        elif i == 4: self.visFirma()
         self.gammelTab = i
 
 ################## FAKTURA ########################
@@ -1209,8 +1207,8 @@ class FinFaktura(QtGui.QMainWindow):#Ui_MainWindow): ## leser gui fra faktura_ui
 ############## INTERNE DIALOGER ###################
 
     def visFakturanummer(self):
-	dialog = gui_fakturanummer.nummersettergui()
-	res = dialog.exec_()
+        dialog = gui_fakturanummer.nummersettergui()
+        res = dialog.exec_()
 
     def visEpostOppsett(self):
         dialog = gui_epost.epostOppsett(self.faktura)
@@ -1290,7 +1288,7 @@ def start():
     logging.info("Loading translations %s" % ("finfaktura_" + QtCore.QLocale.system().name()))
     myappTranslator = QtCore.QTranslator()
     if not myappTranslator.load("finfaktura_" + QtCore.QLocale.system().name(), ":/translations"):
-	logging.warn("Could not load application translations from %s/translations/%s.qm" % (app.applicationDirPath(), "finfaktura_" + QtCore.QLocale.system().name()))
+        logging.warn("Could not load application translations from %s/translations/%s.qm" % (app.applicationDirPath(), "finfaktura_" + QtCore.QLocale.system().name()))
     app.installTranslator(myappTranslator)
 
     ff = FinFaktura()

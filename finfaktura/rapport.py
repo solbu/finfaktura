@@ -8,9 +8,9 @@
 # $Id: oppgradering.py 217 2007-05-02 23:25:16Z havard.dahle $
 ###########################################################################
 
-import sys, time, os, types
-from string import join, split
-import logging, subprocess
+import time
+import os
+import logging
 
 from . import fakturafeil, fil
 
