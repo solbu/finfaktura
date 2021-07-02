@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding:utf8 -*-
 ###########################################################################
 #    Copyright (C) 2005-2009 Håvard Gulldahl
 #    <havard@lurtgjort.no>
@@ -194,7 +193,7 @@ class smtp(epost):
             #|      empty dictionary.
 
             feil = [ "%s: %s" % (a, res[a][1]) for a in list(res.keys()) ]
-            raise SendeFeil('Sendingen feilet for disse adressene:\n%s' % join(feil, '\n'))
+            raise SendeFeil('Sendingen feilet for disse adressene:\n%s' % "\n".join(feil))
         return True
 
 class sendmail(epost):

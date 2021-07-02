@@ -94,7 +94,6 @@ except ImportError:
     from pysqlite2 import dbapi2 as sqlite # prøv bruker/system-installert modul
 
 import os, time, types, sys, shutil
-from string import join
 from pprint import pprint
 
 class OppgraderingsFeil(Exception):
@@ -161,8 +160,9 @@ class oppgrader:
 
         k = objekt
 
-        sql = "INSERT INTO %s (%s) VALUES (%s)" % (k._tabellnavn, join(list(egenskaper.keys()), ","),
-            join(['?' for z in list(egenskaper.values())], ","))
+        sql = "INSERT INTO %s (%s) VALUES (%s)" % (k._tabellnavn,
+                                                   ",".join(list(egenskaper.keys())),
+                                                   ",".join(['?' for z in list(egenskaper.values())]))
         try:
             self.nydbc.execute(sql, list(egenskaper.values()))
         except:

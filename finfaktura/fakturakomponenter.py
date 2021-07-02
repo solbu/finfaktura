@@ -389,7 +389,8 @@ class fakturaFirmainfo(fakturaKomponent):
     def sjekkData(self):
         sjekk = ["firmanavn", "kontaktperson", "adresse", "postnummer", "poststed", "kontonummer", "epost"]
         mangler = [felt for felt in sjekk if not getattr(self, felt)]
-        if mangler: raise FirmainfoFeil("Følgende felt er ikke fylt ut: %s" % join(mangler, ", "))
+        if mangler:
+            raise FirmainfoFeil("Følgende felt er ikke fylt ut: %s" % ", ".join(mangler))
 
 class fakturaOppsett(fakturaKomponent):
     _tabellnavn = "Oppsett"

@@ -9,7 +9,6 @@
 ###########################################################################
 
 import types, os, sys, os.path, random, logging
-from string import join
 from time import time, strftime, localtime
 from finfaktura.fakturabibliotek import *
 

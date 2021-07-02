@@ -68,10 +68,10 @@ class ordreHenter:
             #s += join(vareID=%i " % self.
             for v in self.varer: self.begrens.append(" vareID=%i " % v)
         if self.begrens:
-            s += " WHERE " + join(self.begrens, " AND ")
+            s += " WHERE " + " AND ".join(self.begrens)
         if self.sorter:
             s += self.sorter
         if self.antall:
-            s += " LIMIT %i " % antall
+            s += " LIMIT %i " % self.antall
         logging.debug(s)
         return s
