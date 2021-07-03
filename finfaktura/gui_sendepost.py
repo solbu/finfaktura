@@ -26,12 +26,12 @@ class sendEpost(sendepost_ui.Ui_sendEpost):
         self.gui.show()
 
     def lagVedlegg(self):
-        f = QtWidgets.QFileDialog.getOpenFileName(self.gui,
+        (f, _mimetype) = QtWidgets.QFileDialog.getOpenFileName(self.gui,
             "Velg en fil å legge ved",
             os.getenv('HOME', '.'))
         if len(f) > 0:
             self.vedlegg.show()
-            ff = str(f).encode(sys.getfilesystemencoding())
+            ff = f
             logging.debug("Legger ved fil: %s", ff)
             self._vedlegg.append(ff)
             mime = mimetypes.guess_type(ff)

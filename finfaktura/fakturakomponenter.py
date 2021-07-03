@@ -514,8 +514,8 @@ class fakturaSikkerhetskopi(fakturaKomponent):
     def vis(self, program=PDFVIS):
         "Dersom program inneholder %s vil den bli erstattet med filnavnet, ellers lagt til etter program"
         logging.debug('Åpner sikkerhetskopi #%i med programmet "%s"', self._id, program)
-        p = program.encode(sys.getfilesystemencoding()) # subprocess.call på windows takler ikke unicode!
-        f = self.lagFil().encode(sys.getfilesystemencoding())
+        p = program # subprocess.call på windows takler ikke unicode!
+        f = self.lagFil()
         if '%s' in program:
             command = (p % f).split(' ')
         else:

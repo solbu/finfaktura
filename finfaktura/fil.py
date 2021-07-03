@@ -14,8 +14,8 @@ import sys, logging, subprocess
 PDFVIS = "/usr/bin/xdg-open"
 
 def vis(filnavn, program=PDFVIS):
-    p = program.encode(sys.getfilesystemencoding()) # subprocess.call på windows takler ikke unicode!
-    f = filnavn.encode(sys.getfilesystemencoding())
+    p = program # subprocess.call på windows takler ikke unicode!
+    f = filnavn
     if '%s' in program:
         command = (p % f).split(' ')
     else:

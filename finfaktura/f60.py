@@ -255,8 +255,8 @@ class f60:
         med filnavnet til PDF-en, ellers vil filnavnet bli føyd til sist."""
         if not os.path.exists(self.filnavn):
             raise Exception("Ugyldig filnavn: %s" % self.filnavn)
-        p = program.encode(sys.getfilesystemencoding()) # subprocess.call på windows takler ikke unicode!
-        f = self.filnavn.encode(sys.getfilesystemencoding())
+        p = program # subprocess.call på windows takler ikke unicode!
+        f = self.filnavn
         if '%s' in program:
             command = (p % f).split(' ') # FIXME: dette blir ikke riktig hvis det er opprom i stien
         else:

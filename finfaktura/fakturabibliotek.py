@@ -346,7 +346,7 @@ def sikkerhetskopierFil(filnavn):
     """lager sikkerhetskopi av filnavn -> filnavn~
 
     Forventer filnavn i unicode"""
-    f = filnavn.encode(sys.getfilesystemencoding())
+    f = filnavn
     logging.debug('skal sikkerhetskopiere %s (altså %s)',
                   repr(filnavn), repr(f))
     assert os.path.exists(f)
