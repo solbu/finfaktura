@@ -1,6 +1,8 @@
 dist/
 build/
 *~
+*.swp
+faktura.db
 **/*.pyc
 **/.mypy_cache/
 /finfaktura/ui/epost_ui.py
