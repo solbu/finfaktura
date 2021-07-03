@@ -219,7 +219,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
             ordre = self.gui.fakturaFakturaliste.selectedItems()[0].ordre
         except IndexError:
             return None #ingen ordre er valgt
-        meny = QtGui.QMenu(self)
+        meny = QtWidgets.QMenu(self)
         meny.setTitle("Redigér faktura")
         if not ordre.betalt:
             meny.addAction("Er betalt", self.betalFaktura)
@@ -509,7 +509,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         self.gui.fakturaDetaljerTekst.setText(s)
         # oppdater datofeltet. minste dato er ordredato. største dato er i dag
         minst, maks = localtime(linje.ordre.ordredato), localtime()
-        self.gui.fakturaBetaltDato.setDateRange(QtCore.QDate(minst[0]-1, minst[1], minst[2]), QtCore.QDate(maks[0]+1, maks[1], maks[2])) # utvider rangen med ett år i hver retning slik at QtGui.QDateEdit-kontrollen skal bli brukelig
+        self.gui.fakturaBetaltDato.setDateRange(QtCore.QDate(minst[0]-1, minst[1], minst[2]), QtCore.QDate(maks[0]+1, maks[1], maks[2])) # utvider rangen med ett år i hver retning slik at QtWidgets.QDateEdit-kontrollen skal bli brukelig
 
     def visFakturaKvittering(self):
         try:
@@ -705,7 +705,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
             kunde = self.gui.kundeKundeliste.selectedItems()[0].kunde
         except IndexError:
             return None # ingen kunde er valgt i lista
-        meny = QtGui.QMenu(self)
+        meny = QtWidgets.QMenu(self)
         meny.setTitle("Redigér kunde")
         if not kunde.slettet:
             meny.addAction("Redigér", self.redigerKunde)
@@ -931,7 +931,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
             vare = self.gui.varerVareliste.selectedItems()[0].vare
         except IndexError:
             return None # ingen vare er valgt i lista
-        meny = QtGui.QMenu(self)
+        meny = QtWidgets.QMenu(self)
         meny.setTitle("Redigér faktura")
         if not vare.slettet:
             meny.addAction("Redigér", self.redigerVare)
@@ -1010,7 +1010,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
             if isinstance(obj, (QtWidgets.QSpinBox, QtWidgets.QDoubleSpinBox)): test = obj.value() > 0.0
             elif isinstance(obj, QtWidgets.QComboBox): test = obj.currentText()
             elif isinstance(obj, QtWidgets.QLineEdit): test = obj.text()
-            elif isinstance(obj, QtGui.QPlainTextEdit): test = obj.toPlainText()
+            elif isinstance(obj, QtWidgets.QPlainTextEdit): test = obj.toPlainText()
             if not test:
                 self.alert('Du er nødt til å oppgi %s' % (kravkart[obj].lower()))
                 obj.setFocus()
@@ -1267,10 +1267,10 @@ class tekstVindu(object):
         self.gui.resize(600, 600)
         self.gui.setModal(True)
 
-        self.vbox = QtGui.QVBoxLayout(self.gui)
-        self.tittel = QtGui.QLabel(self.gui)
+        self.vbox = QtWidgets.QVBoxLayout(self.gui)
+        self.tittel = QtWidgets.QLabel(self.gui)
         self.tittel.setText('<b>%s</b>' % tittel)
-        self.tekst = QtGui.QPlainTextEdit(self.gui)
+        self.tekst = QtWidgets.QPlainTextEdit(self.gui)
         self.tekst.setTabChangesFocus(True)
         self.tekst.setObjectName("tekst")
         self.tekst.setPlainText(tekst)

@@ -110,7 +110,7 @@ class nummersettergui(object):
     self.gui.handlingsBoks.setEnabled(status['status'])
 
   def velgDatabase(self):
-    f = QtGui.QFileDialog.getOpenFileName(self.gui,
+    f = QtWidgets.QFileDialog.getOpenFileName(self.gui,
                                           'Velg database',
                                           str(os.getenv('HOME', '.'), sys.getfilesystemencoding()),
                                           "Databasefil (*.db)")
@@ -137,6 +137,6 @@ class nummersettergui(object):
 if __name__ == '__main__':
   if '-d' in sys.argv:
     logging.basicConfig(level=logging.DEBUG)
-  a = QtGui.QApplication(sys.argv)
+  a = QtWidgets.QApplication(sys.argv)
   p = nummersettergui()
   a.exec_()

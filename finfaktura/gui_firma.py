@@ -153,7 +153,7 @@ class firmaOppsett(firmainfo_ui.Ui_firmaOppsett):
         for obj in list(kravkart.keys()):
             if isinstance(obj, QtWidgets.QSpinBox): test = obj.value() > 0
             elif isinstance(obj, QtWidgets.QComboBox): test = obj.currentText()
-            elif isinstance(obj, (QtWidgets.QLineEdit,QtGui.QTextEdit)): test = obj.text()
+            elif isinstance(obj, (QtWidgets.QLineEdit,QtWidgets.QTextEdit)): test = obj.text()
             if test is None:
                 logging.error('sjekkFirmaMangler: mangler test for % obj')
             elif test: kravkart.pop(obj)
@@ -166,8 +166,8 @@ class firmaOppsett(firmainfo_ui.Ui_firmaOppsett):
         for obj in list(self._kontrollkart.keys()):
             if isinstance(obj, (QtWidgets.QSpinBox, QtWidgets.QDoubleSpinBox)): test = obj.value() > 0
             elif isinstance(obj, QtWidgets.QComboBox): test = obj.currentText()
-            elif isinstance(obj, (QtWidgets.QLineEdit,QtGui.QTextEdit)): test = obj.text()
-            elif isinstance(obj, QtGui.QPlainTextEdit): test = obj.toPlainText()
+            elif isinstance(obj, (QtWidgets.QLineEdit,QtWidgets.QTextEdit)): test = obj.text()
+            elif isinstance(obj, QtWidgets.QPlainTextEdit): test = obj.toPlainText()
             else:
                 logging.error('mangler test for %s (%s)' % (obj, type(obj)))
             if test:
@@ -187,7 +187,7 @@ class firmaOppsett(firmainfo_ui.Ui_firmaOppsett):
             self.visLogo()
         else:
             startdir = ""
-            logofile = QtGui.QFileDialog.getOpenFileName(self.gui,
+            logofile = QtWidgets.QFileDialog.getOpenFileName(self.gui,
                 "Velg bildefil for firmaets logo",
                 startdir,
                 'Bildefiler (*.png *.xpm *.jpg *.jpeg *.gif *.bmp *.ppm *.pgm *.pbm)',

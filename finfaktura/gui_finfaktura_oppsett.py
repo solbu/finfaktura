@@ -60,10 +60,10 @@ class finfakturaOppsett(finfaktura_oppsett_ui.Ui_FinFakturaOppsett):
     def endreFakturakatalog(self):
         nu = self.oppsettFakturakatalog.text()
         startdir = nu
-        ny = QtGui.QFileDialog.getExistingDirectory(self.gui,
+        ny = QtWidgets.QFileDialog.getExistingDirectory(self.gui,
             "Velg katalog fakturaene skal lagres i",
             startdir,
-            QtGui.QFileDialog.ShowDirsOnly
+            QtWidgets.QFileDialog.ShowDirsOnly
             )
         if len(str(ny)) > 0:
             logging.debug("Setter ny fakturakataolg: %s" % ny)
@@ -71,7 +71,7 @@ class finfakturaOppsett(finfaktura_oppsett_ui.Ui_FinFakturaOppsett):
             self.oppsettFakturakatalog.setText(str(ny))
 
     def endreProgramVis(self):
-        ny = str(QtGui.QFileDialog.getOpenFileName(self.gui,
+        ny = str(QtWidgets.QFileDialog.getOpenFileName(self.gui,
             "Velg et program å åpne PDF i",
             self.oppsettProgramVisPDF.itemData(self.oppsettProgramVisPDF.currentIndex()).toPyObject())
             )

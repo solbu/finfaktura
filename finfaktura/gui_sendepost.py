@@ -25,7 +25,7 @@ class sendEpost(sendepost_ui.Ui_sendEpost):
         self.gui.show()
 
     def lagVedlegg(self):
-        f = QtGui.QFileDialog.getOpenFileName(self.gui,
+        f = QtWidgets.QFileDialog.getOpenFileName(self.gui,
             "Velg en fil å legge ved",
             os.getenv('HOME', '.'))
         if len(f) > 0:
