@@ -145,7 +145,6 @@ class f60:
     firma = {'logo':None, }
     faktura = {}
     filnavn = ''
-    filnavn = ''
     datoformat = "%Y-%m-%d"
 
     def __init__(self, filnavn, overskriv = False):
@@ -159,10 +158,8 @@ class f60:
         self.canvas = canvas.Canvas(filename=self.buffer, pagesize=A4)
 
     def data(self):
-        f = open(self.filnavn)
-        d = f.read()
-        f.close()
-        return d
+        with open(self.filnavn, 'rb') as f:
+            return f.read()
 
     # ============= MÅ FYLLES INN AV BRUKER =============== #
 
