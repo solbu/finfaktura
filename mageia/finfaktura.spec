@@ -1,7 +1,7 @@
 %define bname	faktura
 
 Name:		finfaktura
-Version:	2.2.2
+Version:	3.0.0
 Release:	%mkrel 1
 Summary:	Create, review and administer norwegian invoices
 License:	GPLv2
@@ -26,7 +26,7 @@ and print on the F60 faktura form or send by email as PDF.
 %build
 
 %install
-python setup.py install --prefix /usr --root %{buildroot}
+python3 setup.py install --prefix /usr --root %{buildroot}
 
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{name}.desktop
 install -m644 %{name}.png -D %{buildroot}%{_datadir}/pixmaps/%{name}.png
@@ -46,8 +46,8 @@ install -m644 %{bname}.1 -D %{buildroot}%{_mandir}/man1/%{bname}.1
 
 
 %changelog
-* Fri Jun 25 2021 Johnny A. Solbu <johnny@solbu.net> 2.2.2-1.solbu7
-- New version: 2.2.2
+* Sat Jul 03 2021 Johnny A. Solbu <johnny@solbu.net> 3.0.0-1.solbu7
+- New version: 3.0.0
 
 * Mon Jun 18 2018 Johnny A. Solbu <johnny@solbu.net> 2.2.1-1.solbu5
 - New version: 2.2.1

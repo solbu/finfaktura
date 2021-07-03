@@ -1,8 +1,10 @@
-finfaktura (2.2.2-1) stable; urgency=low
+finfaktura (3.0.0-1) stable; urgency=low
 
   * Ny versjon
   * LOCALE-fikser
   * Dokumenter installasjonsprosedyre på Windows
+  * Python2 -> python3
+  * PyQT4 -> PyQT5
 
  -- Johnny A. Solbu <johnny@solbu.net>  Fri, 25 Jun 2021 15:48:04 +0200
 
