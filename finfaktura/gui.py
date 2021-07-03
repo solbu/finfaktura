@@ -287,7 +287,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
 #     kunde = self.faktura.hentKunde(kundeID)
 #     self.nyFaktura(kunde)
 
-    def nyFaktura(self, kunde = None, ordrelinje = None):
+    def nyFaktura(self, kunde=None, ordrelinje=None):
         # sjekk at firmainfo er fullstendig utfylt (så feiler vi ikke senere)
         try: self.firma.sjekkData()
         except FirmainfoFeil as e:
@@ -296,7 +296,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
                        str(e))
             self.visFirmaOppsett()
             return False
-        if kunde is not None:
+        if kunde and kunde is not None:
             self.gui.fakturaFaktaMottaker.clear()
             self.gui.fakturaFaktaMottaker.addItem(str(kunde), QtCore.QVariant(kunde))
             self.gui.fakturaVareliste.setFocus()
@@ -339,7 +339,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
             self.gui.fakturaFaktaForfall.setFocus()
             self.alert("Forfallsdato kan ikke være tidligere enn fakturadato")
             return False
-        kunde = self.gui.fakturaFaktaMottaker.itemData(self.gui.fakturaFaktaMottaker.currentIndex()).toPyObject()
+        kunde = self.gui.fakturaFaktaMottaker.itemData(self.gui.fakturaFaktaMottaker.currentIndex())
         d = self.gui.fakturaFaktaDato.date()
         dato = mktime((d.year(),d.month(),d.day(),11,59,0,0,0,0)) # på midten av dagen (11:59) for å kunne betale fakturaen senere laget samme dag
         fd = self.gui.fakturaFaktaForfall.date()
@@ -450,8 +450,11 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         sender = self.gui.fakturaVareliste.cellWidget(rad, kol)
         if kol == 0: # endret på varen -> oppdater metadata
             _vare = sender.itemData(sender.currentIndex())
-            if _vare.isValid():
-                vare = _vare.toPyObject()
+            print("sender: %s"%(sender,))
+            print("sender.currentIndex: %s"%(sender.currentIndex(),))
+            print("_vare: %s"%(hasattr(_vare, 'nyId'),))
+            if _vare:
+                vare = _vare
             else:
                 # ny vare, tøm andre felt
                 logging.debug("ny vare opprettet: %s", str(sender.currentText()))
@@ -1098,7 +1101,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         if self.gui.okonomiAvgrensningerKunde.isChecked():
             kliste = self.gui.okonomiAvgrensningerKundeliste
             try:
-                kunde = kliste.itemData(kliste.currentIndex()).toPyObject()
+                kunde = kliste.itemData(kliste.currentIndex())
                 ordrehenter.begrensKunde(kunde)
                 begrensninger['kunde'] = kunde
             except IndexError:
@@ -1106,7 +1109,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         if self.gui.okonomiAvgrensningerVare.isChecked():
             vliste = self.gui.okonomiAvgrensningerVareliste
             try:
-                vare = vliste.itemData(vliste.currentIndex()).toPyObject()
+                vare = vliste.itemData(vliste.currentIndex())
                 ordrehenter.begrensVare(vare)
                 begrensninger['vare'] = vare
             except IndexError:
@@ -1257,7 +1260,8 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         QtWidgets.QMessageBox.information(self, "Obs!", msg, QtWidgets.QMessageBox.Ok)
 
     def JaNei(self, s):
-        svar = QtWidgets.QMessageBox.question(self, "Hm?", s, QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Default, QtWidgets.QMessageBox.NoButton)
+        svar = QtWidgets.QMessageBox.question(self, "Hm?", s,
+                                              QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
         return svar == QtWidgets.QMessageBox.Yes
 
 class tekstVindu(object):
