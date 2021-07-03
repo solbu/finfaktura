@@ -283,11 +283,12 @@ class fakturaOrdre(fakturaKomponent):
         logging.debug('lagFilnavn: %s <- %s', katalog, fakturatype)
         # o.p.expanduser tar ikke unicode-stier (bug i python)
         # prøv å komme seg rundt det ved å dele opp stien
-        if not '~' in katalog:
-            fullkat = katalog # trenger ikke expanduser
+        brukerstimatch = re.search(r'(~[^/\\ ]*)(.*)', katalog)
+        if not brukerstimatch:
+            fullkat = katalog  # trenger ikke expanduser
         else:
-            _brukersti, sti = re.search(r'(~[^/\\ ]*)(.*)', katalog).groups()
-            brukersti = os.path.expanduser(str(_brukersti)).decode(sys.getfilesystemencoding())
+            _brukersti, sti = brukerstimatch.groups()
+            brukersti = os.path.expanduser(_brukersti)
             fullkat = os.path.join(brukersti, sti)
         if not os.path.isdir(fullkat):
             logging.debug('lagFilnavn: %s er ikke en gyldig katalog', fullkat)
