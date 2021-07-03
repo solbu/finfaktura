@@ -433,7 +433,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         for v in self.faktura.hentVarer():
             Vare.addItem(str(v.navn), QtCore.QVariant(v))
         Vare.setEditable(True)
-        Vare.setAutoCompletion(True)
+        # By default, for an editable combo box, a QCompleter that performs case insensitive inline completion is automatically created.
         Vare.show()
         Vare.setToolTip('Velg vare; eller skriv inn nytt varenavn og trykk <em>enter</em> for å legge til en ny vare')
         Vare.activated.connect(lambda x: self.fakturaVarelisteSynk(rad, 0))
