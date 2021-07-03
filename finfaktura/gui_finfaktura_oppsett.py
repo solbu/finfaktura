@@ -71,19 +71,21 @@ class finfakturaOppsett(finfaktura_oppsett_ui.Ui_FinFakturaOppsett):
             self.oppsettFakturakatalog.setText(str(ny))
 
     def endreProgramVis(self):
-        ny = str(QtWidgets.QFileDialog.getOpenFileName(self.gui,
+        (ny, _mimetype) = QtWidgets.QFileDialog.getOpenFileName(
+            self.gui,
             "Velg et program å åpne PDF i",
-            self.oppsettProgramVisPDF.itemData(self.oppsettProgramVisPDF.currentIndex()).toPyObject())
-            )
+            self.oppsettProgramVisPDF.itemData(self.oppsettProgramVisPDF.currentIndex()))
         if len(ny) > 0:
-            logging.debug("Setter nytt visningsprogram: %s" % ny)
+            logging.debug("Setter nytt visningsprogram: %s (%s)"
+                          % (ny, _mimetype))
             self.faktura.oppsett.vispdf = ny
             self.oppsettProgramVisPDF.insertItem(0, ny, QtCore.QVariant(ny))
 
     def oppdater(self):
         logging.debug("Lager oppsett")
         self.faktura.oppsett.fakturakatalog = str(self.oppsettFakturakatalog.text())
-        self.faktura.oppsett.vispdf = str(self.oppsettProgramVisPDF.itemData(self.oppsettProgramVisPDF.currentIndex()).toPyObject())
+        self.faktura.oppsett.vispdf = self.oppsettProgramVisPDF.itemData(
+            self.oppsettProgramVisPDF.currentIndex())
 
 
 # kate: indent-width 4;
