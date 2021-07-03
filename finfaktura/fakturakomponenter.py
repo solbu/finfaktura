@@ -287,7 +287,7 @@ class fakturaOrdre(fakturaKomponent):
             fullkat = katalog # trenger ikke expanduser
         else:
             _brukersti, sti = re.search(r'(~[^/\\ ]*)(.*)', katalog).groups()
-            brukersti = os.path.expanduser(str(_brukersti)).decode(sys.getfilesystemencoding())
+            brukersti = os.path.expanduser(str(_brukersti))
             fullkat = os.path.join(brukersti, sti)
         if not os.path.isdir(fullkat):
             logging.debug('lagFilnavn: %s er ikke en gyldig katalog', fullkat)

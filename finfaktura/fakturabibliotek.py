@@ -286,7 +286,7 @@ def finnDatabasenavn(databasenavn=DATABASENAVN):
     """
     db = os.getenv('FAKTURADB')
     if db is not None and (not PRODUKSJONSVERSJON or os.path.exists(db)):
-        return db.decode(sys.getfilesystemencoding()) # returnerer miljøvariabelen $FAKTURADB
+        return db # returnerer miljøvariabelen $FAKTURADB
     fdir = os.getenv('FAKTURADIR')
     if not fdir:
         #sjekk for utviklermodus
@@ -301,7 +301,6 @@ def finnDatabasenavn(databasenavn=DATABASENAVN):
             #sjekk for linux
             pdir = os.getenv('HOME')
             fdir = os.path.join(pdir, ".finfaktura")
-    fdir = fdir.decode(sys.getfilesystemencoding())
     if not os.path.exists(fdir):
         os.mkdir(fdir, 0o700)
     return os.path.join(fdir, databasenavn)
