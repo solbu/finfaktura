@@ -20,7 +20,7 @@ class sendEpost(sendepost_ui.Ui_sendEpost):
         self.setupUi(self.gui)
         self.tittel.setText('Sender faktura til %s <b>&lt;%s</b>&gt;' % (ordre.kunde.navn, ordre.kunde.epost))
         self.tekst.setPlainText('Vedlagt følger epostfaktura #%i:\n%s\n\n-- \n%s\n%s' % (ordre.ID, ordre.tekst,  ordre.firma, ordre.firma.vilkar))
-        self.gui.connect(self.leggVedFil, QtCore.SIGNAL("clicked()"), self.lagVedlegg)
+        self.leggVedFil.clicked.connect(self.lagVedlegg)
         self.vedlegg.hide()
         self.gui.show()
 
@@ -53,3 +53,5 @@ def prettySize(size):
             continue
         else:
             return "%s%s" % (round(size/float(lim/2**10),2), suf)
+
+# kate: indent-width 4;

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-# kate: indent-width 4;
 ###########################################################################
 #    Copyright (C) 2008 Håvard Gulldahl
 #    <havard@gulldahl.no>
@@ -19,8 +17,8 @@ class finfakturaOppsett(finfaktura_oppsett_ui.Ui_FinFakturaOppsett):
         self.faktura = faktura
         self.gui = QtWidgets.QDialog()
         self.setupUi(self.gui)
-        self.gui.connect(self.oppsettFakturakatalogSok, QtCore.SIGNAL("clicked()"), self.endreFakturakatalog)
-        self.gui.connect(self.oppsettProgrammerVisSok, QtCore.SIGNAL("clicked()"), self.endreProgramVis)
+        self.oppsettFakturakatalogSok.clicked.connect(self.endreFakturakatalog)
+        self.oppsettProgrammerVisSok.clicked.connect(self.endreProgramVis)
 
         self.vis()
         self.gui.show()
@@ -87,3 +85,5 @@ class finfakturaOppsett(finfaktura_oppsett_ui.Ui_FinFakturaOppsett):
         self.faktura.oppsett.fakturakatalog = str(self.oppsettFakturakatalog.text())
         self.faktura.oppsett.vispdf = str(self.oppsettProgramVisPDF.itemData(self.oppsettProgramVisPDF.currentIndex()).toPyObject())
 
+
+# kate: indent-width 4;

@@ -22,13 +22,10 @@ class epostOppsett(epost_ui.Ui_epostOppsett):
         self.gui = QtWidgets.QDialog()
         self.setupUi(self.gui)
         self._epostlosninger = [self.epostLosningAuto, self.epostLosningSmtp, self.epostLosningSendmail]
-        self.gui.connect(self.epostLosningAuto, QtCore.SIGNAL("toggled(bool)"),
-            lambda b: self.roterAktivSeksjon('auto'))
-        self.gui.connect(self.epostLosningSmtp, QtCore.SIGNAL("toggled(bool)"),
-            lambda b: self.roterAktivSeksjon('smtp'))
-        self.gui.connect(self.epostLosningSendmail, QtCore.SIGNAL("toggled(bool)"),
-            lambda b: self.roterAktivSeksjon('sendmail'))
-        self.gui.connect(self.epostLosningTest, QtCore.SIGNAL("clicked()"), self.testEpost)
+        self.epostLosningAuto.toggled.connect(lambda b: self.roterAktivSeksjon('auto'))
+        self.epostLosningSmtp.toggled.connect(lambda b: self.roterAktivSeksjon('smtp'))
+        self.epostLosningSendmail.toggled.connect(lambda b: self.roterAktivSeksjon('sendmail'))
+        self.epostLosningTest.clicked.connect(self.testEpost)
 
         self.vis()
         self.gui.show()

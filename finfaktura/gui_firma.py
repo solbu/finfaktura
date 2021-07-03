@@ -20,7 +20,7 @@ class firmaOppsett(firmainfo_ui.Ui_firmaOppsett):
         self.firma = firma
         self.gui = QtWidgets.QDialog()
         self.setupUi(self.gui)
-        self.gui.connect(self.lagreLogo, QtCore.SIGNAL("clicked()"), self.finnFjernLogo)
+        self.lagreLogo.clicked.connect(self.finnFjernLogo)
 
         self._kontrollkart = {
             self.Firmanavn:'Firmanavn',
