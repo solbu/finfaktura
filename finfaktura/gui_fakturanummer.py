@@ -11,16 +11,20 @@
 #
 ###########################################################################
 
-import sys, os, os.path, logging, glob
-from time import time, strftime, localtime, mktime
+import sys
+import os
+import os.path
+import glob
+from time import strftime, localtime
 import logging
 
 from stat import ST_MTIME
 
-from PyQt5 import QtCore, QtGui, uic
+from PyQt5 import uic, QtWidgets
 #from ui import fakturanummer_ui
 
 import sqlite3
+
 
 class nummersetter(object):
   def lesDBInfo(self, databasenavn):
@@ -63,7 +67,8 @@ class nummersetter(object):
       return True
     except sqlite3.Error:
       raise
-    
+
+
 class nummersettergui(object):
   def __init__(self):
     self.help = nummersetter()
@@ -88,13 +93,14 @@ class nummersettergui(object):
         yield f
     yield '...'
 
-  def slotDatabaseValgt(self, s):
-    logging.debug('valgte database: %s', s)
-    filename = str(s, sys.getfilesystemencoding())
+  def slotDatabaseValgt(self, i):
+    logging.debug('valgte databasenr: %s', i)
+    filename = self.gui.databasenavn.currentText()
+    logging.debug('valgte database: %s', filename)
     if filename == '...':
-      f = self.velgDatabase()
+      (f, _) = self.velgDatabase()  # ignorer mimetype
       self.gui.databasenavn.insertItem(-1, f)
-      filename = str(f, sys.getfilesystemencoding())
+      filename = f
     self.visDatabaseStatus()
 
   def visDatabaseStatus(self):
@@ -112,7 +118,7 @@ class nummersettergui(object):
   def velgDatabase(self):
     f = QtWidgets.QFileDialog.getOpenFileName(self.gui,
                                           'Velg database',
-                                          str(os.getenv('HOME', '.'), sys.getfilesystemencoding()),
+                                          os.getenv('HOME', '.'),
                                           "Databasefil (*.db)")
     logging.debug('valgte fil: %s', f)
     return f

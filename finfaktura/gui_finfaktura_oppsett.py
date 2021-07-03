@@ -9,7 +9,7 @@
 ###########################################################################
 
 import sys, logging, os.path, glob
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets
 from .ui import finfaktura_oppsett_ui
 
 class finfakturaOppsett(finfaktura_oppsett_ui.Ui_FinFakturaOppsett):

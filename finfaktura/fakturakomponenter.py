@@ -14,18 +14,13 @@ import time
 import os.path
 import logging
 import subprocess
-
-
-try:
-    import sqlite3 as sqlite # python2.5 har sqlite3 innebygget
-except ImportError:
-    from pysqlite2 import dbapi2 as sqlite # prøv bruker/system-installert modul
-
-from PyQt5 import QtCore
+import sqlite3 as sqlite
 
 from .fakturafeil import *
 
+
 PDFVIS = "/usr/bin/xdg-open"
+
 
 class fakturaKomponent:
     _egenskaper = {}
@@ -75,7 +70,7 @@ class fakturaKomponent:
         self._egenskaperListe = [z[0] for z in self.c.description]
         r = {}
         for z in self._egenskaperListe:
-            r.update({z:None})
+            r.update({z : None})
 #       logging.debug("hentEgenskaperListe: %s = %s" % (self._id, r))
         return r
 

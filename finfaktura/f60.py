@@ -66,6 +66,7 @@ import types
 import logging
 import subprocess
 import locale
+from typing import Dict, Any
 
 try:
     import io as StringIO
@@ -106,6 +107,10 @@ PDFUTSKRIFT = '/usr/bin/xdg-open'
 def setlocale():
     LOCALE = False
     # sett norsk tegngiving (bl.a. for ',' som desimal og 'kr')
+    (deflan, defenc) = locale.getdefaultlocale()
+    default = ''
+    if deflan and defenc:
+        default = deflan + '.' + defenc
     for x in (
             'nb_NO.utf8', 'nn_NO.utf8',    # git bash på Windows
             'nb_NO.UTF-8', 'nn_NO.UTF-8',  # Ubuntu/Debian
@@ -114,7 +119,7 @@ def setlocale():
             'nb_NO', 'nn_NO',
             'no_NO', 'no',
             'norwegian',
-            locale.getdefaultlocale()):
+            default):
         # har ulike navn på ulike plattformer... sukk...
         try:
             locale.setlocale(locale.LC_ALL, x)
@@ -134,9 +139,12 @@ class f60:
     "Lager en pdf etter malen til Giro F60-1, for utskrift eller elektronisk bruk"
     standardskrift = "Helvetica"
     standardstorrelse = 10
-    kunde = {}
+    kunde = {}                  # type: Dict[str, Any]
+    firma = {'logo':None, }
+    faktura = {}                # type: Dict[str, Any]
     firma = {'logo':None, }
     faktura = {}
+    filnavn = ''
     filnavn = ''
     datoformat = "%Y-%m-%d"
 
@@ -166,8 +174,8 @@ class f60:
             levertEpoch = utstedtEpoch # vi vet ikke leveringsdato
         self.faktura['levert'] = time.strftime(self.datoformat, time.localtime(levertEpoch))
         self.faktura['forfall'] = time.strftime(self.datoformat, time.localtime(forfallEpoch))
-        self.faktura['tekst'] = self._s(fakturatekst)
-        self.faktura['vilkaar'] = self._s(vilkaar)
+        self.faktura['tekst'] = fakturatekst
+        self.faktura['vilkaar'] = vilkaar
         if kid:
             if isinstance(kid, bool): kid = self.lagKid()
             if not self.sjekkKid(kid): raise f60FeilKID('KID-nummeret er ikke riktig')
@@ -200,11 +208,11 @@ class f60:
             Org.nr: %(organisasjonsnummer)s
             Epost: %(epost)s"""
         for k in list(info.keys()):
-            self.firma[k] = self._s(info[k])
+            self.firma[k] = info[k]
 
     def settKundeinfo(self, kundenr, adresse):
         self.kunde['nr'] = int(kundenr)
-        self.kunde['adresse'] = self._s(adresse)
+        self.kunde['adresse'] = adresse
 
     # ==================== OFFENTLIGE FUNKSJONER ================ #
 
@@ -362,21 +370,6 @@ class f60:
         if len(t) > lengde: t = "%s..." % t[:lengde-3]
         return t
 
-    def _s(self, t):
-        """Sørger for at tekst er i riktig kodesett (encoding)"""
-        if not isinstance(t, str): return t
-        # Reportlab 2.x vil ha unicode
-        if REPORTLAB2:
-            try:
-                return str(t)
-            except UnicodeDecodeError:
-                return str(t, 'latin1')
-        else: # Reportlab 1.x vil ha latin1/iso-8859-1
-            try:
-                return str(t).encode('latin1')
-            except UnicodeDecodeError:
-                return str(t, 'latin1').encode('latin1')
-
     def _kr(self, i):
         "Sørger for at et beløp skrives med riktig skilletegn og valuta. Returnerer tekst"
 #        try:
@@ -469,7 +462,7 @@ class f60:
         merke.setFillGray(0.6)
         merke.setFont("Helvetica", 70)
         merke.setTextOrigin(90*mm, 30*mm)
-        merke.textLines(split("KVITTERING\n\n\nKVITTERING"))
+        merke.textLines("KVITTERING\n\n\nKVITTERING".split())
         self.canvas.drawText(merke)
         self.canvas.restoreState() # henter tilbake normalt oppsett
 
@@ -488,7 +481,7 @@ class f60:
 
         # logo
         logoForskyvning = 0
-        if self.firma['logo']:
+        if self.firma['logo'] and self.firma['logo'] is not None:
             logging.debug("Har logo!")
             try:
                 from PIL import Image
@@ -529,15 +522,14 @@ class f60:
         firmainfo.setFillGray(0.3)
         #for z,y in self.firma.iteritems():
             #logging.debug("%s (%s): %s" % (z, type(y), y))
-        firmainfo.textLines(split("""%(kontaktperson)s
+        firmainfo.textLines(("""%(kontaktperson)s
 %(adresse)s
 %(postnummer)04i %(poststed)s
 Telefon: %(telefon)s
 Bankkonto: %(kontonummer)011i
 Org.nr: %(organisasjonsnummer)s
-Epost: %(epost)s""" % (self.firma), "\n"))
+Epost: %(epost)s""" % (self.firma)).split("\n"))
         self.canvas.drawText(firmainfo)
-
 
         self.canvas.line(5*mm, 265*mm, 205*mm, 265*mm)
         self.canvas.setFont("Helvetica", 10)
@@ -546,7 +538,7 @@ Epost: %(epost)s""" % (self.firma), "\n"))
         kunde = self.canvas.beginText()
         kunde.setFillGray(0.0)
         kunde.setTextOrigin(20*mm, 260*mm)
-        kunde.textLines(split("Kunde# %03i\n%s" % (self.kunde['nr'], self.kunde['adresse']), '\n'))
+        kunde.textLines(("Kunde# %03i\n%s" % (self.kunde['nr'], self.kunde['adresse'])).split('\n'))
         self.canvas.drawText(kunde)
 
         # detaljer om fakturaen # FIXME: løpe over flere sider
@@ -554,7 +546,7 @@ Epost: %(epost)s""" % (self.firma), "\n"))
         totalsider = 1
         fakturafakta = self.canvas.beginText()
         fakturafakta.setTextOrigin(150*mm, 260*mm)
-        fakturafakta.textLines(split("""FAKTURA
+        fakturafakta.textLines(("""FAKTURA
 Fakturanr: %04i
 Leveringsdato: %s
 Fakturadato: %s
@@ -565,8 +557,7 @@ Side: %i av %i
                self.faktura['utstedt'],
                self.faktura['forfall'],
                sidenr, # FIXME: løpe over flere sider
-               totalsider), '\n')
-               )
+               totalsider)).split('\n'))
         self.canvas.drawText(fakturafakta)
 
         fakturatekst = self.canvas.beginText()
@@ -598,7 +589,8 @@ Side: %i av %i
         totalMva = 0
         totalBrutto = 0
 
-        mvagrunnlag = {} # Holder en oppsummering av salg per mva-sats
+        # Holder en oppsummering av salg per mva-sats:
+        mvagrunnlag = {}  # type: Dict[str, Any] 
 
         if type(self.ordrelinje) in (types.FunctionType, types.MethodType):
             for vare in self.ordrelinje():
@@ -611,11 +603,11 @@ Side: %i av %i
                 totalMva += mva
                 totalBelop += pris
 
-                if not vare.mva in list(mvagrunnlag.keys()): # legg til i oppsummeringen av salg
+                if not vare.mva in list(mvagrunnlag.keys()):  # legg til i oppsummeringen av salg
                     mvagrunnlag[vare.mva] = []
                 mvagrunnlag[vare.mva] += [brutto,]
 
-                self.canvas.drawString(tekstX, Y, self._s(vare.detaljertBeskrivelse()))
+                self.canvas.drawString(tekstX, Y, vare.detaljertBeskrivelse())
                 self.canvas.drawRightString(bruttoX, Y, self._kr(brutto))
                 self.canvas.drawRightString(mvaX, Y, self._kr(mva))
                 self.canvas.drawRightString(prisX, Y, self._kr(pris))
@@ -632,7 +624,7 @@ Side: %i av %i
                 totalMva += mva
                 totalBelop += pris
 
-                if not vare[3] in list(mvagrunnlag.keys()): # legg til i oppsummeringen av salg
+                if not vare[3] in list(mvagrunnlag.keys()):  # legg til i oppsummeringen av salg
                     mvagrunnlag[vare[3]] = []
                 mvagrunnlag[vare[3]] += [brutto,]
 
@@ -697,7 +689,7 @@ Side: %i av %i
         adresseboksY = 58*mm # øverste punkt i adressefelter
         # mottakerfelt
         kundeinfo = self.canvas.beginText()
-        ki = split(self.kunde['adresse'], '\n')
+        ki = self.kunde['adresse'].split('\n')
         kiY = adresseboksY + (3*mm * int(len(ki) > 4))
         kundeinfo.setTextOrigin(15*mm, kiY)
         kundeinfo.textLines(ki)
@@ -705,7 +697,7 @@ Side: %i av %i
 
         # avsenderfelt
         firmaadresse = self.canvas.beginText()
-        fa = split("%(firmanavn)s\n%(kontaktperson)s\n%(adresse)s\n%(postnummer)04i %(poststed)s" % (self.firma), '\n')
+        fa = ("%(firmanavn)s\n%(kontaktperson)s\n%(adresse)s\n%(postnummer)04i %(poststed)s" % (self.firma)).split('\n')
         faY = adresseboksY + (3*mm * int(len(fa) > 4))
         firmaadresse.setTextOrigin(115*mm, faY)
         firmaadresse.textLines(fa)

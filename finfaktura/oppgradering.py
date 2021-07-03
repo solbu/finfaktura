@@ -19,6 +19,12 @@
 #     dersom feltnavnet er None, blir det oversett (dette er bare fornuftig
 #     om tabellen har blitt fjernet eller gitt nytt navn
 
+from . import fakturabibliotek
+import sqlite3 as sqlite
+
+import os, time, types, sys, shutil
+from pprint import pprint
+
 ENDRINGER ="""
 
 1.6:Firma:orgnr=organisasjonsnummer
@@ -86,19 +92,10 @@ ENDRINGER ="""
 """
 
 
-from . import fakturabibliotek
-
-try:
-    import sqlite3 as sqlite # python2.5 har sqlite3 innebygget
-except ImportError:
-    from pysqlite2 import dbapi2 as sqlite # prøv bruker/system-installert modul
-
-import os, time, types, sys, shutil
-from pprint import pprint
-
 class OppgraderingsFeil(Exception):
     info = ""
     logg = ""
+
 
 class oppgrader:
     "For oppgradering mellom databaseversjoner"
@@ -324,6 +321,7 @@ class oppgrader:
         r = self.logg.read()
         self.logg.close()
         return r
+
 
 if __name__ == '__main__':
     ny = fakturabibliotek.kobleTilDatabase(dbnavn="faktura.nydb")

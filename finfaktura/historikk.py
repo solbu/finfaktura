@@ -9,8 +9,9 @@
 ###########################################################################
 
 from . import fakturakomponenter
-import types, sys, time
-import logging
+import time
+from typing import Union
+
 
 class fakturaHandling(fakturakomponenter.fakturaKomponent):#(fakturabibliotek.fakturaKomponent):
     _tabellnavn = "Handling"
@@ -26,11 +27,12 @@ class fakturaHandling(fakturakomponenter.fakturaKomponent):#(fakturabibliotek.fa
         self.db.commit()
         return self.c.lastrowid
 
+
 class historiskHandling:
     handlingID = 0
     dato = 0
     suksess = 0
-    navn = None
+    navn = None                 # type: Union[None, str]
     forklaring = ''
     ordreID = 0
     db = None

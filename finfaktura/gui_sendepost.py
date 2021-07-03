@@ -9,8 +9,9 @@
 ###########################################################################
 
 import sys, os, logging, mimetypes, stat
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 from .ui import sendepost_ui
+
 
 class sendEpost(sendepost_ui.Ui_sendEpost):
     _vedlegg = []

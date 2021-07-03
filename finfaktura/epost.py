@@ -227,7 +227,7 @@ class sendmail(epost):
         kmd = "%s %s" % (self.bin, self.til)
         if self.kopi: kmd += " %s" % self.kopi # kopi til oss selv (BCC)
         logging.debug("starter prosess: %s", kmd)
-        inn, ut = os.popen4(kmd)
+        inn, ut = os.popen(kmd)
         try:
             inn.write(self.mimemelding().as_string())
             r = inn.close()

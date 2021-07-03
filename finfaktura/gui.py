@@ -1215,7 +1215,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
 
     def visFakturanummer(self):
         dialog = gui_fakturanummer.nummersettergui()
-        res = dialog.exec_()
+        _ = dialog.exec_()
 
     def visEpostOppsett(self):
         dialog = gui_epost.epostOppsett(self.faktura)

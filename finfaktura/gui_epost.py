@@ -1,5 +1,3 @@
-# -*- coding:utf8 -*-
-# kate: indent-width 4;
 ###########################################################################
 #    Copyright (C) 2008 Håvard Gulldahl
 #    <havard@gulldahl.no>
@@ -11,7 +9,7 @@
 ###########################################################################
 
 import logging
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets
 from .ui import epost_ui
 from . import epost
 
@@ -124,3 +122,5 @@ class epostOppsett(epost_ui.Ui_epostOppsett):
         ##self.epostSmtpBrukernavn.setEnabled(vis)
         #self.epostSmtpPassord.setEnabled(vis)
 
+
+# kate: indent-width 4;

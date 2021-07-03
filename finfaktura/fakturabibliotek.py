@@ -14,15 +14,14 @@ import os.path
 import shutil
 from time import time
 import logging
-try:
-    import sqlite3 as sqlite # python2.5 har sqlite3 innebygget
-except ImportError:
-    from pysqlite2 import dbapi2 as sqlite # prøv bruker/system-installert modul
+import sqlite3 as sqlite
+from PyQt5 import QtWidgets
 
 from . import fil
 from .fakturakomponenter import fakturaOppsett, fakturaEpost, fakturaFirmainfo, \
         fakturaOrdre, fakturaVare, fakturaKunde, fakturaSikkerhetskopi
 from .fakturafeil import *
+
 
 PRODUKSJONSVERSJON=False # Sett denne til True for å skjule funksjonalitet som ikke er ferdigstilt
 DATABASEVERSJON=3.1
@@ -42,7 +41,8 @@ class FakturaBibliotek:
         try:
             self.epostoppsett = fakturaEpost(db)
         except sqlite.DatabaseError as e:
-            if "no such table" in str(e).lower(): self.epostoppsett = None ## for gammel versjon
+            if "no such table" in str(e).lower():
+                self.epostoppsett = None  # for gammel versjon
             else: raise
 
     def versjon(self):
@@ -222,7 +222,7 @@ class FakturaBibliotek:
             raise ex
         logging.debug('tester epost. transport: %s', transport)
         m = getattr(epost,transport)() # laster riktig transport
-        assert(m, epost.epost)
+        assert m, epost.epost
         oppsett = self.epostoppsett
         if transport == 'smtp':
             m.tls(bool(oppsett.smtptls))
@@ -264,7 +264,7 @@ def lagDatabase(database, sqlfile=None):
 def byggDatabase(db, sqlfile=None):
     "lager databasestruktur. 'db' er et sqlite3.Connection-objekt"
     if sqlfile is not None:
-        sql = file(sqlfile).read()
+        sql = open(sqlfile, "r").read()
     else:
         sql = str(lesRessurs(':/sql/faktura.sql'))
     db.executescript(sql)
@@ -369,7 +369,6 @@ def lesRessurs(ressurs):
     return s
 
 def typeofqt(obj):
-  from PyQt5 import QtGui
   if isinstance(obj, QtWidgets.QSpinBox): return 'QSpinBox'
   elif isinstance(obj, QtWidgets.QDoubleSpinBox): return 'QDoubleSpinBox'
   elif isinstance(obj, QtWidgets.QLineEdit): return 'QLineEdit'
