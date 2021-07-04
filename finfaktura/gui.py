@@ -388,11 +388,21 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
         except IndexError:
             pass
 
-        #skal vi lage blanketter nå?
+        # Skal vi lage blanketter nå?
         s = 'Den nye fakturaen er laget. Vil du lage tilhørende blankett nå?'
-        knapp = QtWidgets.QMessageBox.information(self, 'Lage blankett?', s, 'Epost', 'Papir', 'Senere', 0, 2)
-        if knapp == 0: self.lagFaktura(Type='epost')
-        elif knapp == 1: self.lagFaktura(Type='papir')
+        boks = QtWidgets.QMessageBox(self)
+        boks.setWindowTitle("Lage blankett?")
+        boks.setIcon(QtWidgets.QMessageBox.Question)
+        boks.setText(s)
+        epostknapp = boks.addButton('Epost',  QtWidgets.QMessageBox.YesRole)
+        papirknapp = boks.addButton('Papir',  QtWidgets.QMessageBox.AcceptRole)
+        _ = boks.addButton('Senere', QtWidgets.QMessageBox.NoRole)
+        boks.setDefaultButton(epostknapp)
+        boks.exec_()
+        if boks.clickedButton() == epostknapp:
+            self.lagFaktura(Type='epost')
+        if boks.clickedButton() == papirknapp:
+            self.lagFaktura(Type='papir')
 
 #   def redigerFaktura(self, rad, koord, kolonne):
 #     linje = {}
