@@ -68,10 +68,7 @@ import subprocess
 import locale
 from typing import Dict, Any
 
-try:
-    import io as StringIO
-except ImportError:
-    import io
+import io
 
 class f60Eksisterer(Exception): pass
 class f60Feil(Exception): pass
