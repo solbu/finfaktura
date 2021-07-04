@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 #    Copyright (C) 2005-2009 Håvard Gulldahl og Håvard Sjøvoll
 #    <havard@lurtgjort.no>, <sjovoll@ntnu.no>
@@ -260,6 +259,7 @@ def lagDatabase(database, sqlfile=None):
             e = "Databasen din (versjon %s) kan ikke leses av pysqlite, som leser versjon %s" % (dbver, sqlite.sqlite_version_info[0])
             print("FEIL!",e)
             raise DBVersjonFeil(e)
+
 
 def byggDatabase(db, sqlfile=None):
     "lager databasestruktur. 'db' er et sqlite3.Connection-objekt"

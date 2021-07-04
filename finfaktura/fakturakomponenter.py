@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
 #    Copyright (C) 2005-2009 Håvard Gulldahl
 #    <havard@lurtgjort.no>
@@ -8,7 +7,6 @@
 # $Id: fakturakomponenter.py 545 2009-04-13 19:45:25Z havard.gulldahl $
 ###########################################################################
 
-import sys
 import re
 import time
 import os.path
@@ -283,18 +281,20 @@ class fakturaOrdre(fakturaKomponent):
         logging.debug('lagFilnavn: %s <- %s', katalog, fakturatype)
         # o.p.expanduser tar ikke unicode-stier (bug i python)
         # prøv å komme seg rundt det ved å dele opp stien
-        if not '~' in katalog:
-            fullkat = katalog # trenger ikke expanduser
+        brukerstimatch = re.search(r'(~[^/\\ ]*)(.*)', katalog)
+        if not brukerstimatch:
+            fullkat = katalog  # trenger ikke expanduser
         else:
-            _brukersti, sti = re.search(r'(~[^/\\ ]*)(.*)', katalog).groups()
-            brukersti = os.path.expanduser(str(_brukersti))
-            fullkat = os.path.join(brukersti, sti)
+            _brukersti, sti = brukerstimatch.groups()
+            brukersti = os.path.expanduser(_brukersti)
+            fullkat = os.path.join(brukersti, sti.lstrip('/'))
         if not os.path.isdir(fullkat):
             logging.debug('lagFilnavn: %s er ikke en gyldig katalog', fullkat)
             raise FakturaFeil('%s er ikke en gyldig katalog' % fullkat)
+        namn = self.kunde.navn.replace(" ", "_").replace("/", "_")
         n = os.path.join(fullkat, "faktura-%06d-%s-%s-%s.pdf" % (self.ID,
                                                                  fakturatype,
-                                                                 self.kunde.navn.replace(" ", "_").replace("/", "_"),
+                                                                 namn,
                                                                  time.strftime("%Y-%m-%d")))
         logging.debug('lagFilnavn ble til %s', str(n))
         return str(n)
@@ -523,6 +523,7 @@ class fakturaSikkerhetskopi(fakturaKomponent):
         logging.debug('kjører kommando: %s',  command)
         subprocess.call(command)
 
+
 class fakturaEpost(fakturaKomponent):
     _tabellnavn = "Epost"
     _id = 1
@@ -539,6 +540,7 @@ class fakturaEpost(fakturaKomponent):
 
     def nyId(self):
         pass
+
 
 class pdfType:
     'Egen type for å holde pdf (f.eks. sikkerhetskopi)'
