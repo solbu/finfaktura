@@ -412,7 +412,7 @@ class FinFaktura(QtWidgets.QMainWindow):#Ui_MainWindow): ## leser gui fra faktur
 #     self.nyFaktura(ordre = rad.ordre, ordrelinje = linje)
 
     def leggVareTilOrdre(self, rad=None):
-        if rad is None:
+        if rad is None or rad == False:
             rad = self.gui.fakturaVareliste.rowCount()
         Antall = QtWidgets.QDoubleSpinBox(self.gui.fakturaVareliste)
         Antall.setMaximum(100000.0)
@@ -1305,7 +1305,7 @@ def start():
     app = QtWidgets.QApplication(sys.argv)
 
     qtTranslator = QtCore.QTranslator()
-    
+
     logging.info("Loading translations %s" % ("finfaktura_" + QtCore.QLocale.system().name()))
     myappTranslator = QtCore.QTranslator()
     if not myappTranslator.load("finfaktura_" + QtCore.QLocale.system().name(), ":/translations"):

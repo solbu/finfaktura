@@ -327,7 +327,7 @@ class f60:
       e = StandardEncryption(userPassword=passord, canPrint=utskrift, canModify=endringer,
               canCopy=kopieringer, canAnnotate=kommentarer, strength=128)
       return self.canvas.setEncrypt(e)
-      
+
     # ==================== INTERNE FUNKSJONER ================ #
 
     def sjekkFilnavn(self, filnavn):
@@ -357,7 +357,7 @@ class f60:
                     i -= 1
             ret += [l, ]
         return ret
-      
+
 
     def kutt(self, t, lengde = 200):
         """Kutter en tekst hvis den overstiger en gitt lengde"""
@@ -471,7 +471,7 @@ class f60:
         self.canvas.setTitle("Elektronisk faktura fra %s, utstedt den %s" % (self.firma['firmanavn'],
                                                                              self.faktura['utstedt']))
         self.canvas.setAuthor("f60.py versjon %s fra Fryktelig Fin Faktura (finfaktura.sourceforge.net)" % __version__)
-        
+
 
         # logo
         logoForskyvning = 0
@@ -490,16 +490,17 @@ class f60:
                 try:
                   # sjekk om det er et filnavn
                   # forutsetter at PATH_MAX=4096, sannsynligvis har ingen systemer har satt den større
-                  enfil = len(self.firma['logo']) < 4096 and os.path.exists(self.firma['logo']) 
+                  enfil = len(self.firma['logo']) < 4096 and os.path.exists(self.firma['logo'])
                 except: # path.exists snubler på binær data
                   enfil = False
                 if enfil:# det er et filnavn, last det direkte
                     l = self.firma['logo']
                 else:
-                    l = io.StringIO(self.firma['logo'])
-                self._logo = Image.open(l)
-                logo = PDFImage(self._logo, 10*mm, 267*mm, width=25*mm, height=25*mm)
-                logo.drawInlineImage(self.canvas, preserveAspectRatio=True)
+                    #l = io.StringIO(self.firma['logo'])
+                    l = self.firma['logo']
+                #self._logo = Image.open(l)
+                #logo = PDFImage(self._logo, 10*mm, 267*mm, width=25*mm, height=25*mm)
+                #logo.drawInlineImage(self.canvas, preserveAspectRatio=True)
             logoForskyvning = 30
 
         # firmanavn: overskrift
@@ -547,7 +548,7 @@ Fakturadato: %s
 Forfallsdato: %s
 Side: %i av %i
         """ % (self.faktura['nr'],
-               self.faktura['levert'], 
+               self.faktura['levert'],
                self.faktura['utstedt'],
                self.faktura['forfall'],
                sidenr, # FIXME: løpe over flere sider
@@ -584,7 +585,7 @@ Side: %i av %i
         totalBrutto = 0
 
         # Holder en oppsummering av salg per mva-sats:
-        mvagrunnlag = {}  # type: Dict[str, Any] 
+        mvagrunnlag = {}  # type: Dict[str, Any]
 
         if type(self.ordrelinje) in (types.FunctionType, types.MethodType):
             for vare in self.ordrelinje():
@@ -700,7 +701,7 @@ Side: %i av %i
         # Blankettens underkant
         # (se http://sourceforge.net/p/finfaktura/tickets/38/, punkt A)
         underkant = 5.0/6.0 * inch
-        
+
         # Den fortrykte H -- innstillingsmerke
         # (se http://sourceforge.net/p/finfaktura/tickets/38/)
         self.canvas.drawString(2*mm, underkant, 'H')
